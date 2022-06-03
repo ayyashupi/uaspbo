@@ -12,10 +12,10 @@ public class mobil {
     private int id_mobil;
     private String nopol;
     private String merk;
-    private String jenis;
+    private String model;
     private int jml_penumpang;
-    private String transmisi; 
-    private String BBM; //jenis BBM
+    private String transmisi;
+    private String BBM;
     private int harga_sewa;
     private String status;
 
@@ -62,17 +62,17 @@ public class mobil {
     }
 
     /**
-     * @return the jenis
+     * @return the model
      */
-    public String getJenis() {
-        return jenis;
+    public String getModel() {
+        return model;
     }
 
     /**
-     * @param jenis the jenis to set
+     * @param model the model to set
      */
-    public void setJenis(String jenis) {
-        this.jenis = jenis;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     /**
@@ -144,6 +144,5 @@ public class mobil {
     public void setStatus(String status) {
         this.status = status;
     }
-    
     
 }
