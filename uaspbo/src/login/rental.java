@@ -4,9 +4,15 @@
  */
 package login;
 
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
- * @author ayyash
+ * 
  */
 public class rental extends javax.swing.JFrame {
 
@@ -15,6 +21,7 @@ public class rental extends javax.swing.JFrame {
      */
     public rental() {
         initComponents();
+        reformatComboBox();
     }
 
     /**
@@ -28,17 +35,21 @@ public class rental extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        lbl_judul = new javax.swing.JLabel();
+        lbl_supir = new javax.swing.JLabel();
+        lbl_tanggal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        lbl_model_mobil = new javax.swing.JLabel();
+        lbl_lama_sewa = new javax.swing.JLabel();
+        cmb_model = new javax.swing.JComboBox<>();
+        cmb_supir = new javax.swing.JComboBox<>();
+        lbl_tahun = new javax.swing.JLabel();
+        cmb_bulan = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jtf_hari = new javax.swing.JTextField();
+        jSpinner1 = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -50,28 +61,20 @@ public class rental extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 400));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Sign Up");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 300, -1));
+        lbl_judul.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_judul.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_judul.setText("Rental Mobil");
+        jPanel2.add(lbl_judul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 300, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel4.setText("Username");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 80, -1));
+        lbl_supir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_supir.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_supir.setText("Nama Supir");
+        jPanel2.add(lbl_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 80, -1));
 
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 220, 30));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Password");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 80, -1));
-
-        jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
+        lbl_tanggal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_tanggal.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_tanggal.setText("Tanggal Sewa");
+        jPanel2.add(lbl_tanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 100, -1));
 
         jButton1.setBackground(new java.awt.Color(102, 102, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -90,7 +93,7 @@ public class rental extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(102, 102, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Register");
+        jButton2.setText("Booking");
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -100,23 +103,37 @@ public class rental extends javax.swing.JFrame {
         });
         jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel6.setText("Nama");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 80, -1));
+        lbl_model_mobil.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_model_mobil.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_model_mobil.setText("Model Mobil");
+        jPanel2.add(lbl_model_mobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 100, -1));
 
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 220, 30));
+        lbl_lama_sewa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_lama_sewa.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_lama_sewa.setText("Lama Sewa");
+        jPanel2.add(lbl_lama_sewa, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 70, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("Re-type password");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 150, -1));
+        cmb_model.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmb_model, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
 
-        jPasswordField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(jPasswordField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 220, 30));
+        cmb_supir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmb_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        lbl_tahun.setText("2022");
+        jPanel2.add(lbl_tahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 20));
+
+        cmb_bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulan", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        jPanel2.add(cmb_bulan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, -1, -1));
+
+        jLabel2.setText("/");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
+
+        jLabel8.setText("/");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
+
+        jtf_hari.setText("12");
+        jPanel2.add(jtf_hari, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, -1, -1));
+        jPanel2.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, -1, -1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -158,6 +175,50 @@ public class rental extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void reformatComboBox() {
+        try{
+            cmb_model.removeAllItems();
+            cmb_supir.removeAllItems();
+            
+            //1. Query
+            String query = "SELECT model FROM mobil";
+            String query2 = "SELECT nama FROM supir";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+            java.sql.Connection c2 = (Connection)KoneksiDB.configDB();
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+            java.sql.Statement s2 = c2.createStatement();
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            java.sql.ResultSet r2 = s2.executeQuery(query2);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                cmb_model.addItem(r.getString(i));
+
+           
+            }
+            
+            //6. looping supir
+            while(r2.next()){
+                
+                cmb_supir.addItem(r2.getString(i));
+           
+            }
+//            cmb_model.addItem("item1");
+//            cmb_model.addItem("item2");       
+        }catch(Exception e){
+            
+        }
+
+    }
+        
     /**
      * @param args the command line arguments
      */
@@ -195,18 +256,22 @@ public class rental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmb_bulan;
+    private javax.swing.JComboBox<String> cmb_model;
+    private javax.swing.JComboBox<String> cmb_supir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTextField jtf_hari;
+    private javax.swing.JLabel lbl_judul;
+    private javax.swing.JLabel lbl_lama_sewa;
+    private javax.swing.JLabel lbl_model_mobil;
+    private javax.swing.JLabel lbl_supir;
+    private javax.swing.JLabel lbl_tahun;
+    private javax.swing.JLabel lbl_tanggal;
     // End of variables declaration//GEN-END:variables
 }
