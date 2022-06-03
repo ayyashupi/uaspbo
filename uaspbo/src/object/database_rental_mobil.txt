@@ -1,0 +1,71 @@
+drop database rental_pbo;
+create database rental_pbo;
+use rental_pbo;
+
+create table mobil(
+id_mobil int primary key auto_increment,
+nopol varchar(20),
+model varchar(20),
+jml_penumpang int,
+transmisi varchar(20),
+BBM varchar(20),
+harga_sewa int,
+status varchar(20)
+);
+
+
+create table supir(
+id_supir int primary key auto_increment,
+nama varchar(20),
+no_telp varchar(20),
+biaya int,
+jml_cus int,
+status varchar(20)
+);
+
+create table penyewa(
+id_penyewa int primary key auto_increment,
+nama varchar(20),
+username varchar(20),
+password varchar(20),
+gender varchar(20),
+no_telp varchar(20),
+alamat varchar(50),
+no_ktp varchar(20),
+saldo int
+);
+
+create table transaksi(
+id_transaksi int primary key auto_increment,
+id_penyewa int,
+kd_mobil int,
+id_supir int,
+tgl_pinjam date,
+tgl_kembali date,
+diskon int,
+total int,
+foreign key (id_penyewa) references penyewa(id_penyewa),
+foreign key (kd_mobil) references mobil(id_mobil),
+foreign key (id_supir) references supir(id_supir)
+);
+
+
+insert into mobil values
+(1,"B 001 A","Suzuki APV",6,"Manual","Bensin",100000,"Tersedia"),
+(2,"B 002 B","Suzuki Swift",4,"Manual","Bensin",120000,"Tersedia"),
+(3,"B 003 S","Suzuki XXR",6,"Manual","Bensin",150000,"Tersedia")
+;
+
+insert into supir values
+(1,"Zhofron","0821",50000,10,"Tersedia"),
+(2,"Yuna","0822",75000,8,"Tersedia"),
+(3,"Fina","0823",40000,15,"Tersedia")
+;
+
+insert into penyewa values
+(1,"Noire","Noire","PassN","Female","0801","Jl Mansion Bear","00421",500000),
+(2,"Shuri","Shuri","PassS","Female","0802","Jl Street Bear","00322",100000),
+(3,"Flora","Flora","PassF","Female","0803","Jl Castle Bear","00523",1000000)
+;
+
+
