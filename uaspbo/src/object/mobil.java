@@ -11,7 +11,6 @@ package object;
 public class mobil {
     private int id_mobil;
     private String nopol;
-    private String merk;
     private String model;
     private int jml_penumpang;
     private String transmisi;
@@ -45,20 +44,6 @@ public class mobil {
      */
     public void setNopol(String nopol) {
         this.nopol = nopol;
-    }
-
-    /**
-     * @return the merk
-     */
-    public String getMerk() {
-        return merk;
-    }
-
-    /**
-     * @param merk the merk to set
-     */
-    public void setMerk(String merk) {
-        this.merk = merk;
     }
 
     /**
