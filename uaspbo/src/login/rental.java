@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +34,7 @@ public class rental extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_lama_sewa2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lbl_judul = new javax.swing.JLabel();
@@ -41,15 +43,18 @@ public class rental extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         lbl_model_mobil = new javax.swing.JLabel();
-        lbl_lama_sewa = new javax.swing.JLabel();
+        lbl_lamaperhari = new javax.swing.JLabel();
         cmb_model = new javax.swing.JComboBox<>();
         cmb_supir = new javax.swing.JComboBox<>();
-        lbl_tahun = new javax.swing.JLabel();
-        cmb_bulan = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jtf_hari = new javax.swing.JTextField();
-        jSpinner1 = new javax.swing.JSpinner();
+        spn_waktu = new javax.swing.JSpinner();
+        lbl_total_harga = new javax.swing.JLabel();
+        lbl_lama_sewa3 = new javax.swing.JLabel();
+        lbl_lama_sewa4 = new javax.swing.JLabel();
+        jtf_tggl = new javax.swing.JTextField();
+
+        lbl_lama_sewa2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_lama_sewa2.setText("Lama Sewa");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -108,32 +113,37 @@ public class rental extends javax.swing.JFrame {
         lbl_model_mobil.setText("Model Mobil");
         jPanel2.add(lbl_model_mobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 100, -1));
 
-        lbl_lama_sewa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbl_lama_sewa.setForeground(new java.awt.Color(102, 102, 102));
-        lbl_lama_sewa.setText("Lama Sewa");
-        jPanel2.add(lbl_lama_sewa, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 70, -1));
+        lbl_lamaperhari.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_lamaperhari.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_lamaperhari.setText("Hari");
+        jPanel2.add(lbl_lamaperhari, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 70, -1));
 
         cmb_model.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cmb_model, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
 
         cmb_supir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cmb_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+        jPanel2.add(spn_waktu, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, -1, -1));
 
-        lbl_tahun.setText("2022");
-        jPanel2.add(lbl_tahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 20));
+        lbl_total_harga.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_total_harga.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_total_harga.setText("0");
+        jPanel2.add(lbl_total_harga, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 20, -1));
 
-        cmb_bulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bulan", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-        jPanel2.add(cmb_bulan, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, -1, -1));
+        lbl_lama_sewa3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_lama_sewa3.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_lama_sewa3.setText("Lama Sewa");
+        jPanel2.add(lbl_lama_sewa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 70, -1));
 
-        jLabel2.setText("/");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
+        lbl_lama_sewa4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_lama_sewa4.setForeground(new java.awt.Color(102, 102, 102));
+        lbl_lama_sewa4.setText("Total :");
+        jPanel2.add(lbl_lama_sewa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 50, -1));
 
-        jLabel8.setText("/");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, -1, -1));
-
-        jtf_hari.setText("12");
-        jPanel2.add(jtf_hari, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, -1, -1));
-        jPanel2.add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, -1, -1));
+        jtf_tggl.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jtf_tggl.setText("YY-MM-DD");
+        jtf_tggl.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -173,12 +183,106 @@ public class rental extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String model = (String) cmb_model.getSelectedItem();
+        String supir = (String) cmb_supir.getSelectedItem();
+        String tanggal_sewa = jtf_tggl.getText();
+        int lama_sewa = (Integer) spn_waktu.getValue();
+//        String waktu_sewa = Integer.toString(lama_sewa);
+        
+        if(model == "Pilih Mobil" || supir == "Pilih Supir" || tanggal_sewa == "" || tanggal_sewa == "YY-MM-DD" || lama_sewa == 0){
+            JOptionPane.showMessageDialog(null, "Data wajib terisi");
+        } else {
+            try{
+              int id_mobil = getIdMobil(model);
+              int id_supir = getIdSupir(supir);
+              
+              //1.query
+              String query = "INSERT INTO transaksi VALUES ('"+ null +"', '"+ null +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', DATE_ADD('"+ tanggal_sewa + "', INTERVAL '" + lama_sewa + "' DAY ), '" + null + "', '" + null +"')";
 
+              //2. koneksi
+              java.sql.Connection c = (Connection)KoneksiDB.configDB();
+              java.sql.PreparedStatement s = c.prepareStatement(query);
+              s.execute();
+
+//            JOptionPane.showMessageDialog(null, id_mobil);
+//            JOptionPane.showMessageDialog(null, id_supir);            
+            
+                
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "gagal");   
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
+    public int getIdSupir(String supir){
+        int id_supir = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT id_supir FROM supir WHERE nama = '" + supir + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 id_supir = r.getInt("id_supir");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return id_supir;        
+    }
+    
+    public int getIdMobil(String model){
+        int id_mobil = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT id_mobil FROM mobil WHERE model = '" + model + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 id_mobil = r.getInt("id_mobil");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return id_mobil;
+    }
+        
     private void reformatComboBox() {
         try{
             cmb_model.removeAllItems();
+            cmb_model.addItem("Pilih Mobil");
+            
             cmb_supir.removeAllItems();
+            cmb_supir.addItem("Pilih Supir");
             
             //1. Query
             String query = "SELECT model FROM mobil";
@@ -211,8 +315,7 @@ public class rental extends javax.swing.JFrame {
                 cmb_supir.addItem(r2.getString(i));
            
             }
-//            cmb_model.addItem("item1");
-//            cmb_model.addItem("item2");       
+    
         }catch(Exception e){
             
         }
@@ -256,22 +359,22 @@ public class rental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cmb_bulan;
     private javax.swing.JComboBox<String> cmb_model;
     private javax.swing.JComboBox<String> cmb_supir;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jtf_hari;
+    private javax.swing.JTextField jtf_tggl;
     private javax.swing.JLabel lbl_judul;
-    private javax.swing.JLabel lbl_lama_sewa;
+    private javax.swing.JLabel lbl_lama_sewa2;
+    private javax.swing.JLabel lbl_lama_sewa3;
+    private javax.swing.JLabel lbl_lama_sewa4;
+    private javax.swing.JLabel lbl_lamaperhari;
     private javax.swing.JLabel lbl_model_mobil;
     private javax.swing.JLabel lbl_supir;
-    private javax.swing.JLabel lbl_tahun;
     private javax.swing.JLabel lbl_tanggal;
+    private javax.swing.JLabel lbl_total_harga;
+    private javax.swing.JSpinner spn_waktu;
     // End of variables declaration//GEN-END:variables
 }
