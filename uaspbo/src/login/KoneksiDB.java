@@ -19,7 +19,7 @@ public class KoneksiDB {
             
         } catch(Exception e){
            JOptionPane.showMessageDialog(null, "Gagal Koneksi");
-           //System.err.println("koneksi gagal "+e.getMessage()); //perintah menampilkan error pada koneksi
+           System.err.println("koneksi gagal "+e.getMessage()); //perintah menampilkan error pada koneksi
         }
         
         return mysqlconfig;
