@@ -5,6 +5,8 @@
 package insert_form;
 import login.*;
 import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import object.*;
 /**
  *
@@ -13,13 +15,36 @@ import object.*;
 public class Form_Mobil extends javax.swing.JFrame {
     
     private String tipe_aksi;
+    private String id_mobil;
+    private Connection conn;
     /**
      * Creates new form register
      */
+    private void initDatabase(){
+        try{
+        conn = (Connection)KoneksiDB.configDB();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+    }
+    
     public Form_Mobil() {
         initComponents();
+        initDatabase();
         tipe_aksi = "Tambah Mobil";
         lbl_judul.setText(tipe_aksi);
+        btn_submit.setText("Tambah");
+    }
+    
+    public Form_Mobil(String id){
+        initComponents();
+        initDatabase();
+        tipe_aksi = "Edit Mobil";
+        lbl_judul.setText(tipe_aksi);
+        btn_submit.setText("Edit");
+        id_mobil = id;
+        fillForm(getMobil(id_mobil));
+        
     }
 
     /**
@@ -35,21 +60,22 @@ public class Form_Mobil extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lbl_judul = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        NopolField = new javax.swing.JTextField();
+        PenumpangField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        HargaField = new javax.swing.JPasswordField();
         btn_back = new javax.swing.JButton();
         btn_submit = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         ModelField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        PenumpangField = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         BBMField = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         TransmisiField = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         StatusField = new javax.swing.JComboBox<>();
+        NopolField = new javax.swing.JTextField();
+        HargaField = new javax.swing.JTextField();
+        lbl_error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -71,18 +97,19 @@ public class Form_Mobil extends javax.swing.JFrame {
         jLabel4.setText("Nomor Polisi");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 100, -1));
 
-        NopolField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        NopolField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(NopolField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 220, 30));
+        PenumpangField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        PenumpangField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        PenumpangField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PenumpangFieldKeyReleased(evt);
+            }
+        });
+        jPanel2.add(PenumpangField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 90, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("Harga Sewa");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 80, -1));
-
-        HargaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        HargaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(HargaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
         btn_back.setBackground(new java.awt.Color(102, 102, 255));
         btn_back.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -125,22 +152,13 @@ public class Form_Mobil extends javax.swing.JFrame {
         jLabel7.setText("Jenis Bahan Bakar");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
 
-        PenumpangField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        PenumpangField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(PenumpangField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 90, 30));
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
         jLabel8.setText("Penumpang");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 80, -1));
 
         BBMField.setEditable(true);
-        BBMField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Diesel", "Bensin" }));
-        BBMField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BBMFieldActionPerformed(evt);
-            }
-        });
+        BBMField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--", "Diesel", "Bensin" }));
         jPanel2.add(BBMField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 90, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -149,12 +167,7 @@ public class Form_Mobil extends javax.swing.JFrame {
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, -1, -1));
 
         TransmisiField.setEditable(true);
-        TransmisiField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manual", "Automatic", " " }));
-        TransmisiField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TransmisiFieldActionPerformed(evt);
-            }
-        });
+        TransmisiField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--", "Manual", "Automatic" }));
         jPanel2.add(TransmisiField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 90, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -163,13 +176,22 @@ public class Form_Mobil extends javax.swing.JFrame {
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 410, -1, -1));
 
         StatusField.setEditable(true);
-        StatusField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tersedia", "Tidak Tersedia" }));
-        StatusField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StatusFieldActionPerformed(evt);
+        StatusField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--", "Tersedia", "Tidak Tersedia" }));
+        jPanel2.add(StatusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 90, 30));
+
+        NopolField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        NopolField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        jPanel2.add(NopolField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 220, 30));
+
+        HargaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        HargaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        HargaField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                HargaFieldKeyReleased(evt);
             }
         });
-        jPanel2.add(StatusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 440, 90, 30));
+        jPanel2.add(HargaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
+        jPanel2.add(lbl_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 230, 20));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -210,40 +232,155 @@ public class Form_Mobil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
-        try{
+
+        Validator v = new Validator();
+        if(!v.isEmpty(HargaField)&&
+                !v.isEmpty(PenumpangField)&&
+                !v.isEmpty(ModelField)&&
+                !v.isEmpty(NopolField)&&
+                !v.isEmpty(StatusField)&&
+                !v.isEmpty(BBMField)&&
+                !v.isEmpty(TransmisiField)
+                ){
             if(tipe_aksi.equals("Tambah Mobil")){
-                Connection conn = (Connection)KoneksiDB.configDB();
-                Statement state = conn.createStatement();
-                
-                Mobil mobil = new Mobil();
-                
-                String query = "insert into mobil values"
-                        + "()";
-                
-                state.executeQuery(query);
+                insertMobil();
             }else if(tipe_aksi.equals("Edit Mobil")){
-            
+                editMobil(id_mobil);
             }else{
                 System.out.println("No Type Inputted");
             }
-        }catch(Exception ex){
-            
-        
+        }else{
+            JOptionPane.showMessageDialog(null, "Form belum Komplit");
         }
+        
+        
+            
     }//GEN-LAST:event_btn_submitActionPerformed
 
-    private void BBMFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBMFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BBMFieldActionPerformed
+    private void PenumpangFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PenumpangFieldKeyReleased
+        resetText(PenumpangField);
+    }//GEN-LAST:event_PenumpangFieldKeyReleased
 
-    private void TransmisiFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TransmisiFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TransmisiFieldActionPerformed
-
-    private void StatusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StatusFieldActionPerformed
-
+    private void HargaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_HargaFieldKeyReleased
+        resetText(HargaField);
+    }//GEN-LAST:event_HargaFieldKeyReleased
+    
+    private void resetText(JTextField txt){
+        try {
+            int angka = Integer.parseInt(txt.getText());
+            lbl_error.setText("");
+        } catch (NumberFormatException e) {
+                lbl_error.setText("Tolong Masukan Angka");
+                StringBuffer sb = new StringBuffer(txt.getText().toString());
+                sb.deleteCharAt(sb.length()-1);
+                txt.setText(sb+"");
+        }
+    }
+    
+    private void insertMobil(){
+        try{
+            Connection conn = (Connection)KoneksiDB.configDB();
+            Statement state = conn.createStatement();
+                
+            Mobil mobil = new Mobil();
+            mobil.setJml_penumpang(Integer.valueOf(PenumpangField.getText().toString()));
+            mobil.setHarga_sewa(Integer.valueOf(HargaField.getText().toString()));
+                
+            mobil.setModel(ModelField.getText().toString());
+            mobil.setNopol(NopolField.getText().toString());
+            mobil.setStatus(StatusField.getSelectedItem().toString());
+            mobil.setBBM(BBMField.getSelectedItem().toString());
+            mobil.setTransmisi(TransmisiField.getSelectedItem().toString());
+                
+            String query = "insert into mobil(jml_penumpang,harga_sewa,model,nopol,status,BBM,transmisi) values "
+                    + "("
+                    + mobil.getJml_penumpang() + ","
+                    + mobil.getHarga_sewa()+ ","
+                    + "'" + mobil.getModel() + "',"
+                    + "'" + mobil.getNopol()+ "',"
+                    + "'" + mobil.getStatus()+ "',"
+                    + "'" + mobil.getBBM()+ "',"
+                    + "'" + mobil.getTransmisi()+ "'"
+                    + ")";
+                
+            state.execute(query);
+            JOptionPane.showMessageDialog(null, "Mobil Berhasil Ditambah");
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Database Error");
+        }
+    }
+    
+    private void editMobil(String id){
+        try{
+            Statement state = conn.createStatement();
+            
+            Mobil mobil = getMobil(id);
+            mobil.setJml_penumpang(Integer.valueOf(PenumpangField.getText().toString()));
+            mobil.setHarga_sewa(Integer.valueOf(HargaField.getText().toString()));
+                
+            mobil.setModel(ModelField.getText().toString());
+            mobil.setNopol(NopolField.getText().toString());
+            mobil.setStatus(StatusField.getSelectedItem().toString());
+            mobil.setBBM(BBMField.getSelectedItem().toString());
+            mobil.setTransmisi(TransmisiField.getSelectedItem().toString());
+                
+            String query = "update mobil set "
+                    + "jml_penumpang = "+mobil.getJml_penumpang() + ","
+                    + "harga_sewa = "+ mobil.getHarga_sewa()+ ","
+                    + "model = '" + mobil.getModel() + "',"
+                    + "nopol = '" + mobil.getNopol()+ "',"
+                    + "status = '" + mobil.getStatus()+ "',"
+                    + "BBM = '" + mobil.getBBM()+ "',"
+                    + "transmisi = '" + mobil.getTransmisi()+ "'"
+                    + " where id_mobil = "+mobil.getId_mobil();
+                
+            state.executeUpdate(query);
+            state.close();
+            JOptionPane.showMessageDialog(null, "Mobil Berhasil Diedit");
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Database Error");
+        }
+    }
+    
+    private Mobil getMobil(String id){
+        Mobil mobilbaru = new Mobil();
+        try{
+            Statement state = conn.createStatement();
+            String query = "Select * from mobil where id_mobil = "+id;
+            
+            ResultSet rs = state.executeQuery(query);
+            
+            while(rs.next()){
+                mobilbaru.setId_mobil(rs.getInt("id_mobil"));
+                mobilbaru.setNopol(rs.getString("nopol"));
+                mobilbaru.setModel(rs.getString("model"));
+                mobilbaru.setJml_penumpang(rs.getInt("jml_penumpang"));
+                mobilbaru.setBBM(rs.getString("BBM"));
+                mobilbaru.setHarga_sewa(rs.getInt("harga_sewa"));
+                mobilbaru.setStatus(rs.getString("status"));
+                mobilbaru.setTransmisi(rs.getString("transmisi"));
+            }
+            state.close();
+            rs.close();
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return mobilbaru;
+    }
+    
+    private void fillForm(Mobil mobil){
+        ModelField.setText(mobil.getModel());
+        NopolField.setText(mobil.getNopol());
+        HargaField.setText(mobil.getHarga_sewa()+"");
+        PenumpangField.setText(mobil.getJml_penumpang()+"");
+        BBMField.setSelectedItem(mobil.getBBM());
+        TransmisiField.setSelectedItem(mobil.getTransmisi());
+        StatusField.setSelectedItem(mobil.getStatus());
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -284,10 +421,10 @@ public class Form_Mobil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> BBMField;
-    private javax.swing.JPasswordField HargaField;
+    private javax.swing.JTextField HargaField;
     private javax.swing.JTextField ModelField;
     private javax.swing.JTextField NopolField;
-    private javax.swing.JPasswordField PenumpangField;
+    private javax.swing.JTextField PenumpangField;
     private javax.swing.JComboBox<String> StatusField;
     private javax.swing.JComboBox<String> TransmisiField;
     private javax.swing.JButton btn_back;
@@ -301,6 +438,7 @@ public class Form_Mobil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbl_error;
     private javax.swing.JLabel lbl_judul;
     // End of variables declaration//GEN-END:variables
 }
