@@ -136,7 +136,7 @@ public class Form_Mobil extends javax.swing.JFrame {
                 btn_submitActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, -1, -1));
+        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 90, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
