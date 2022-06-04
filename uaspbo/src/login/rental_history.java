@@ -251,8 +251,8 @@ public class rental_history extends javax.swing.JFrame {
         show_table();
         
         lbl_id.setText("0");
-        cmb_model.setSelectedItem(0);
-        cmb_supir.setSelectedItem(0);
+        cmb_model.setSelectedItem("Pilih Mobil");
+        cmb_supir.setSelectedItem("Pilih Supir");
         jtf_tggl.setText("YY-MM-DD");
         spn_tgl_k.setValue(0);
         }
