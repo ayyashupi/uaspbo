@@ -176,8 +176,13 @@ public class rental_history extends javax.swing.JFrame {
         cmb_supir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cmb_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
 
-        jtf_tggl.setText("YY-MM-DD");
-        jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 100, -1));
+        jtf_tggl.setText("YYYY-MM-DD");
+        jtf_tggl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_tgglActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 130, -1));
         jPanel2.add(spn_tgl_k, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 60, -1));
 
         lbl_model_mobil4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -283,6 +288,10 @@ public class rental_history extends javax.swing.JFrame {
         int kembali = getDateDiff(tanggal_kembali, tanggal_peminjaman);
         spn_tgl_k.setValue(kembali);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jtf_tgglActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_tgglActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_tgglActionPerformed
 
     private void show_table(){
         DefaultTableModel table = new DefaultTableModel();

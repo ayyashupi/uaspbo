@@ -64,9 +64,7 @@ public class rental extends javax.swing.JFrame {
         cmb_model = new javax.swing.JComboBox<>();
         cmb_supir = new javax.swing.JComboBox<>();
         spn_waktu = new javax.swing.JSpinner();
-        lbl_total_harga = new javax.swing.JLabel();
         lbl_lama_sewa3 = new javax.swing.JLabel();
-        lbl_lama_sewa4 = new javax.swing.JLabel();
         jtf_tggl = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
 
@@ -159,20 +157,10 @@ public class rental extends javax.swing.JFrame {
         });
         jPanel2.add(spn_waktu, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, -1, -1));
 
-        lbl_total_harga.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbl_total_harga.setForeground(new java.awt.Color(102, 102, 102));
-        lbl_total_harga.setText("0");
-        jPanel2.add(lbl_total_harga, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 20, -1));
-
         lbl_lama_sewa3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_lama_sewa3.setForeground(new java.awt.Color(102, 102, 102));
         lbl_lama_sewa3.setText("Lama Sewa");
         jPanel2.add(lbl_lama_sewa3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 70, -1));
-
-        lbl_lama_sewa4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbl_lama_sewa4.setForeground(new java.awt.Color(102, 102, 102));
-        lbl_lama_sewa4.setText("Total :");
-        jPanel2.add(lbl_lama_sewa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 50, -1));
 
         jtf_tggl.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtf_tggl.setText("YYYY-MM-DD");
@@ -260,21 +248,26 @@ public class rental extends javax.swing.JFrame {
               //perhitungan
               int saldo = getSaldo(id_penyewa);
               int harga_mobil = getHargaMobil(id_mobil);
+              int harga_supir = getHargaSupir(id_supir);
               int count_id = countIdPenyewa(id_penyewa);
               double double_harga_mobil = harga_mobil;
-              double diskon = getDiskon(count_id, double_harga_mobil);
-              double total = getTotal(diskon, double_harga_mobil);
+              double double_harga_supir = harga_supir;
+              double lm_sewa = lama_sewa;
+              double total = getTotal(double_harga_mobil, double_harga_supir, lm_sewa);
+              double diskon = getDiskon(count_id, total);
+              double result = total - diskon;
               
-              if(saldo < double_harga_mobil){
+              if(saldo < result){
                 JOptionPane.showMessageDialog(null, "Saldo kurang");                   
               } else {
                 //1. Query
-                String query = "INSERT INTO transaksi (id_penyewa, kd_mobil, id_supir, tgl_pinjam, tgl_kembali, diskon, total) VALUES ('"+ id_penyewa +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', '"+ tanggal_akhir +"', '"+ diskon +"', '"+ total +"')";
+                String query = "INSERT INTO transaksi (id_penyewa, kd_mobil, id_supir, tgl_pinjam, tgl_kembali, diskon, total) VALUES ('"+ id_penyewa +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', '"+ tanggal_akhir +"', '"+ diskon +"', '"+ result +"')";
 
                 //2. koneksi
                 java.sql.Connection c = (Connection)KoneksiDB.configDB();
                 java.sql.PreparedStatement s = c.prepareStatement(query);
                 s.execute();
+                JOptionPane.showMessageDialog(null, "Total : " + result);
                 JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");                  
               }
               
@@ -331,9 +324,9 @@ public class rental extends javax.swing.JFrame {
         
     }
     
-    public double getTotal(double diskon, double harga_sewa){
+    public double getTotal(double harga_sewa, double harga_supir, double lama_sewa){
         double total = 0;
-        total = harga_sewa - diskon;
+        total = (harga_sewa + harga_supir) * lama_sewa;
 
         return total;
     }
@@ -342,7 +335,7 @@ public class rental extends javax.swing.JFrame {
         double diskon = 0;
         if(countid >= 15){
             diskon = harga_sewa * 0.3;
-        } else if (countid < 15 && countid > 5){
+        } else if (countid > 5 && countid < 15){
             diskon = harga_sewa * 0.1;
         } else {
             diskon = 0;
@@ -380,6 +373,38 @@ public class rental extends javax.swing.JFrame {
             
         }
         return count;        
+    }
+    
+    private int getHargaSupir(int id_supir){
+        int harga = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT biaya FROM supir WHERE id_supir = '" + id_supir + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 harga = r.getInt("biaya");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return harga;
+             
     }
     
     private int getHargaMobil(int id_mobil){
@@ -634,12 +659,10 @@ public class rental extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_judul;
     private javax.swing.JLabel lbl_lama_sewa2;
     private javax.swing.JLabel lbl_lama_sewa3;
-    private javax.swing.JLabel lbl_lama_sewa4;
     private javax.swing.JLabel lbl_lamaperhari;
     private javax.swing.JLabel lbl_model_mobil;
     private javax.swing.JLabel lbl_supir;
     private javax.swing.JLabel lbl_tanggal;
-    private javax.swing.JLabel lbl_total_harga;
     private javax.swing.JSpinner spn_waktu;
     // End of variables declaration//GEN-END:variables
 }
