@@ -224,28 +224,32 @@ public class rental_history extends javax.swing.JFrame {
         if(model == "Pilih Mobil" || supir == "Pilih Supir" || tanggal_p == "" || tanggal_p == "YY-MM-DD" || lama_sewa == 0){
             JOptionPane.showMessageDialog(null, "Data wajib terisi");
         } else {
-//        
-//            try{
-//                //id 
-//                int id_mobil = getIdMobil(model);
-//                
-//                String query = "UPDATE karyawan SET nama = '"+ name +"', jabatan = '"+ jabatan +"', alamat = '"+ alamat +"', telepon = '"+ telepon +"' WHERE id_karyawan = '"+ gid +"'";
-//
-//                //2. koneksi
-//                java.sql.Connection c = (Connection)koneksiDB.configDB();
-//                java.sql.PreparedStatement s = c.prepareStatement(query);
-//                s.execute();
-//                JOptionPane.showMessageDialog(null, "Data Terupdate");
-//            }catch(Exception e){
-//                JOptionPane.showMessageDialog(null, "Data tidak terupdate");
-//                JOptionPane.showMessageDialog(this, e.getMessage());
-//            }
-//        show_table();
-//        id.setText("");
-//        inputn.setText("");
-//        inputj.setText("");
-//        jComboBox1.setSelectedItem(0);
-//        inputt.setText("");
+            try{
+                //id 
+                int id_mobil = getIdMobil(model);
+                int id_supir = getIdSupir(supir);
+                
+                //get tanggal akhir
+                String tanggal_akhir = getDateAdd(tanggal_p, lama_sewa);
+                
+                String query = "UPDATE transaksi SET kd_mobil = '"+ id_mobil +"', id_supir = '"+ id_supir +"', tgl_pinjam = '"+ tanggal_p +"', tgl_kembali = '"+ tanggal_akhir +"' WHERE id_transaksi = '"+ id +"'";
+
+                //2. koneksi
+                java.sql.Connection c = (Connection)KoneksiDB.configDB();
+                java.sql.PreparedStatement s = c.prepareStatement(query);
+                s.execute();
+                JOptionPane.showMessageDialog(null, "Data Terupdate");
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Data tidak terupdate");
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        show_table();
+        
+        lbl_id.setText("0");
+        cmb_model.setSelectedItem(0);
+        cmb_supir.setSelectedItem(0);
+        jtf_tggl.setText("YY-MM-DD");
+        spn_tgl_k.setValue(0);
         }
     }//GEN-LAST:event_btn_editActionPerformed
 
@@ -331,6 +335,38 @@ public class rental_history extends javax.swing.JFrame {
             
             
         }
+    }
+
+    public String getDateAdd(String tanggal_sewa, int lama_sewa){
+        String tanggal = null;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT DATE_ADD('"+ tanggal_sewa + "', INTERVAL '"+ lama_sewa +"' DAY) as hari";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 tanggal = r.getString("hari");
+                 i++;
+
+            }             
+        } catch (Exception e){
+            
+        }
+        return tanggal;
+        
     }
     
     public int getDateDiff(String tanggal_sewa, String tanggal_akhir){
@@ -426,6 +462,68 @@ public class rental_history extends javax.swing.JFrame {
             
         }
         return mobil;
+    }
+
+    public int getIdSupir(String supir){
+        int id_supir = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT id_supir FROM supir WHERE nama = '" + supir + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 id_supir = r.getInt("id_supir");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return id_supir;        
+    }
+    
+    public int getIdMobil(String model){
+        int id_mobil = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT id_mobil FROM mobil WHERE model = '" + model + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 id_mobil = r.getInt("id_mobil");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return id_mobil;
     }
         
     private void reformatComboBox() {
