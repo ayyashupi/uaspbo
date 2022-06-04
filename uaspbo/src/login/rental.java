@@ -252,6 +252,7 @@ public class rental extends javax.swing.JFrame {
               int count_id = countIdPenyewa(id_penyewa);
               double double_harga_mobil = harga_mobil;
               double double_harga_supir = harga_supir;
+              double double_saldo = saldo;
               double lm_sewa = lama_sewa;
               double total = getTotal(double_harga_mobil, double_harga_supir, lm_sewa);
               double diskon = getDiskon(count_id, total);
@@ -268,7 +269,8 @@ public class rental extends javax.swing.JFrame {
                 java.sql.PreparedStatement s = c.prepareStatement(query);
                 s.execute();
                 JOptionPane.showMessageDialog(null, "Total : " + result);
-                JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");                  
+                JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");
+                double update_saldo = updateSaldo(double_saldo, result, id_penyewa);
               }
               
               
@@ -326,6 +328,26 @@ public class rental extends javax.swing.JFrame {
     
     private void updateHarga(){
         
+    }
+    
+    public double updateSaldo (double saldo, double harga_sewa, int id_penyewa){
+        double total = 0;
+        try{
+            //perhitungan
+            total = saldo - harga_sewa;
+                
+            String query = "UPDATE penyewa SET saldo ='"+ total +"' WHERE id_penyewa = '"+ id_penyewa + "'";
+
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+            java.sql.PreparedStatement s = c.prepareStatement(query);
+            s.execute();
+//          JOptionPane.showMessageDialog(null, "Data Terupdate");
+        }catch(Exception e){
+//          JOptionPane.showMessageDialog(null, "Data tidak terupdate");
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        return total;
     }
     
     public double getTotal(double harga_sewa, double harga_supir, double lama_sewa){
