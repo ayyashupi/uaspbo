@@ -26,7 +26,7 @@ public class rental extends javax.swing.JFrame {
     public rental() {
         initComponents();
         reformatComboBox();
-        setIdPenyewa(1);
+        setIdPenyewa(4);
     }
     
     //set id penyewa
@@ -225,15 +225,21 @@ public class rental extends javax.swing.JFrame {
               double diskon = getDiskon(count_id, double_harga_mobil);
               double total = getTotal(diskon, double_harga_mobil);
               
-              
-              //1. Query
-              String query = "INSERT INTO transaksi (id_penyewa, kd_mobil, id_supir, tgl_pinjam, tgl_kembali, diskon, total) VALUES ('"+ id_penyewa +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', '"+ tanggal_akhir +"', '"+ diskon +"', '"+ total +"')";
+              if(saldo < double_harga_mobil){
+                JOptionPane.showMessageDialog(null, "Saldo kurang");                   
+              } else {
+                //1. Query
+                String query = "INSERT INTO transaksi (id_penyewa, kd_mobil, id_supir, tgl_pinjam, tgl_kembali, diskon, total) VALUES ('"+ id_penyewa +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', '"+ tanggal_akhir +"', '"+ diskon +"', '"+ total +"')";
 
-              //2. koneksi
-              java.sql.Connection c = (Connection)KoneksiDB.configDB();
-              java.sql.PreparedStatement s = c.prepareStatement(query);
-              s.execute();
-              JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");
+                //2. koneksi
+                java.sql.Connection c = (Connection)KoneksiDB.configDB();
+                java.sql.PreparedStatement s = c.prepareStatement(query);
+                s.execute();
+                JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");                  
+              }
+              
+              
+
 
                 // cek data setiap variable
 //                JOptionPane.showMessageDialog(null, id_penyewa);
