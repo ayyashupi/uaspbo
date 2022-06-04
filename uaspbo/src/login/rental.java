@@ -288,6 +288,10 @@ public class rental extends javax.swing.JFrame {
                 System.out.println(e);
             }
         }
+        cmb_model.setSelectedItem("Pilih Mobil");
+        cmb_supir.setSelectedItem("Pilih Supir");
+        jtf_tggl.setText("YY-MM-DD");
+        spn_waktu.setValue(0);
     }//GEN-LAST:event_btn_bookingActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
