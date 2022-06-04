@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -57,7 +58,7 @@ public class rental extends javax.swing.JFrame {
         lbl_supir = new javax.swing.JLabel();
         lbl_tanggal = new javax.swing.JLabel();
         btn_history = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_booking = new javax.swing.JButton();
         lbl_model_mobil = new javax.swing.JLabel();
         lbl_lamaperhari = new javax.swing.JLabel();
         cmb_model = new javax.swing.JComboBox<>();
@@ -112,18 +113,18 @@ public class rental extends javax.swing.JFrame {
         });
         jPanel2.add(btn_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(102, 102, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Booking");
-        jButton2.setBorderPainted(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_booking.setBackground(new java.awt.Color(102, 102, 255));
+        btn_booking.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_booking.setForeground(new java.awt.Color(255, 255, 255));
+        btn_booking.setText("Booking");
+        btn_booking.setBorderPainted(false);
+        btn_booking.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_booking.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_bookingActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, -1));
+        jPanel2.add(btn_booking, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, -1));
 
         lbl_model_mobil.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_model_mobil.setForeground(new java.awt.Color(102, 102, 102));
@@ -136,10 +137,26 @@ public class rental extends javax.swing.JFrame {
         jPanel2.add(lbl_lamaperhari, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 70, -1));
 
         cmb_model.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_model.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_modelActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmb_model, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
 
         cmb_supir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_supir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_supirActionPerformed(evt);
+            }
+        });
         jPanel2.add(cmb_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        spn_waktu.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spn_waktuStateChanged(evt);
+            }
+        });
         jPanel2.add(spn_waktu, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, -1, -1));
 
         lbl_total_harga.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -158,8 +175,13 @@ public class rental extends javax.swing.JFrame {
         jPanel2.add(lbl_lama_sewa4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 50, -1));
 
         jtf_tggl.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jtf_tggl.setText("YY-MM-DD");
+        jtf_tggl.setText("YYYY-MM-DD");
         jtf_tggl.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        jtf_tggl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtf_tgglActionPerformed(evt);
+            }
+        });
         jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
         jButton3.setBackground(new java.awt.Color(102, 102, 255));
@@ -215,7 +237,7 @@ public class rental extends javax.swing.JFrame {
         s.setVisible(true);
     }//GEN-LAST:event_btn_historyActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_bookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bookingActionPerformed
         // TODO add your handling code here:
         String model = (String) cmb_model.getSelectedItem();
         String supir = (String) cmb_supir.getSelectedItem();
@@ -223,7 +245,7 @@ public class rental extends javax.swing.JFrame {
         int lama_sewa = (Integer) spn_waktu.getValue();
 //        String waktu_sewa = Integer.toString(lama_sewa);
         
-        if(model == "Pilih Mobil" || supir == "Pilih Supir" || tanggal_sewa == "" || tanggal_sewa == "YY-MM-DD" || lama_sewa == 0){
+        if(model == "Pilih Mobil" || supir == "Pilih Supir" || tanggal_sewa == "" || tanggal_sewa == "YYYY-MM-DD" || lama_sewa == 0){
             JOptionPane.showMessageDialog(null, "Data wajib terisi");
         } else {
             try{
@@ -270,15 +292,45 @@ public class rental extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(null, total);  
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null, "gagal");   
+                System.out.println(e);
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_bookingActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void spn_waktuStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spn_waktuStateChanged
+        try {
+            int angka = Integer.parseInt(spn_waktu.getValue().toString());
+            if (angka < 0) {
+                spn_waktu.setValue(0);
+            }
+        } catch (NumberFormatException e) {
+                spn_waktu.setValue(0);       
+        }
+        updateHarga();
+       
+    }//GEN-LAST:event_spn_waktuStateChanged
+
+    private void jtf_tgglActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtf_tgglActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtf_tgglActionPerformed
+
+    private void cmb_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_modelActionPerformed
+        updateHarga();
+    }//GEN-LAST:event_cmb_modelActionPerformed
+
+    private void cmb_supirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_supirActionPerformed
+        updateHarga();
+    }//GEN-LAST:event_cmb_supirActionPerformed
+    
+    private void updateHarga(){
+        
+    }
+    
     public double getTotal(double diskon, double harga_sewa){
         double total = 0;
         total = harga_sewa - diskon;
@@ -571,10 +623,10 @@ public class rental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_booking;
     private javax.swing.JButton btn_history;
     private javax.swing.JComboBox<String> cmb_model;
     private javax.swing.JComboBox<String> cmb_supir;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

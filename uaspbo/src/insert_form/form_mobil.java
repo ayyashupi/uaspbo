@@ -123,7 +123,7 @@ public class Form_Mobil extends javax.swing.JFrame {
                 btn_backActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, -1, -1));
+        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 90, -1));
 
         btn_submit.setBackground(new java.awt.Color(102, 102, 255));
         btn_submit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -305,6 +305,7 @@ public class Form_Mobil extends javax.swing.JFrame {
                 
             state.execute(query);
             JOptionPane.showMessageDialog(null, "Mobil Berhasil Ditambah");
+            this.dispose();
         }catch(Exception ex){
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Database Error");
@@ -338,6 +339,7 @@ public class Form_Mobil extends javax.swing.JFrame {
             state.executeUpdate(query);
             state.close();
             JOptionPane.showMessageDialog(null, "Mobil Berhasil Diedit");
+            this.dispose();
         }catch(Exception ex){
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Database Error");

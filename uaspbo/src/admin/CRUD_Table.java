@@ -8,6 +8,7 @@ import insert_form.*;
 import javax.swing.JFrame;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import login.KoneksiDB;
@@ -75,6 +76,7 @@ public class CRUD_Table extends javax.swing.JFrame {
         btn_add = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
+        btn_refresh = new javax.swing.JButton();
 
         jScrollPane2.setViewportView(jEditorPane1);
 
@@ -118,7 +120,7 @@ public class CRUD_Table extends javax.swing.JFrame {
                 btn_addActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, 80, -1));
+        jPanel2.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, 80, -1));
 
         btn_edit.setBackground(new java.awt.Color(255, 255, 255));
         btn_edit.setForeground(new java.awt.Color(102, 102, 255));
@@ -130,14 +132,28 @@ public class CRUD_Table extends javax.swing.JFrame {
                 btn_editActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, 80, -1));
+        jPanel2.add(btn_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 150, 80, -1));
 
         btn_delete.setBackground(new java.awt.Color(255, 102, 102));
         btn_delete.setForeground(new java.awt.Color(255, 255, 255));
         btn_delete.setText("Remove");
         btn_delete.setBorderPainted(false);
         btn_delete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(btn_delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 150, 80, -1));
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 190, 80, -1));
+
+        btn_refresh.setText("Refresh");
+        btn_refresh.setBorderPainted(false);
+        btn_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refreshActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 70, 80, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 930, 430));
 
@@ -172,6 +188,10 @@ public class CRUD_Table extends javax.swing.JFrame {
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
         
         int row = tbl_crud.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(null, "Pilih "+tipe+" Terlebih Dahulu");
+        }else{
+            
         String id = tbl_crud.getValueAt(row, 1).toString();
         id = id.substring(6);
         
@@ -194,10 +214,33 @@ public class CRUD_Table extends javax.swing.JFrame {
             formbaru.setVisible(true);
             
         }
+        }
     }//GEN-LAST:event_btn_editActionPerformed
 
-    private void fillTable(String tipe){
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        int row = tbl_crud.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(null, "Pilih "+tipe+" Terlebih Dahulu");
+        }else{
+        String id = tbl_crud.getValueAt(row, 1).toString();
+        id = id.substring(6);
         
+        if(tipe.equals("Mobil")){
+            DeleteMobil(id);
+        }else if(tipe.equals("Supir")){
+            
+        }else if(tipe.equals("Penyewa")){
+            
+        }
+        fillTable(tipe);
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
+        fillTable(tipe);
+    }//GEN-LAST:event_btn_refreshActionPerformed
+
+    private void fillTable(String tipe){
         if(tipe.equals("Mobil")){
             
             DefaultTableModel dtm = new DefaultTableModel();
@@ -232,6 +275,19 @@ public class CRUD_Table extends javax.swing.JFrame {
             
         }
         
+    }
+    
+    private void DeleteMobil(String id){
+        try{
+            Statement state = conn.createStatement();
+            String query = "delete from mobil where id_mobil = "+id;
+            state.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Mobil Berhasil di Hapus");
+            state.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Mobil Gagal di Hapus");
+        }
     }
     
     private ArrayList<Mobil> getAllMobil(){
@@ -309,6 +365,7 @@ public class CRUD_Table extends javax.swing.JFrame {
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_edit;
+    private javax.swing.JButton btn_refresh;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
