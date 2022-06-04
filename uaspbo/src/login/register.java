@@ -8,12 +8,12 @@ package login;
  *
  * @author ayyash
  */
-public class rental extends javax.swing.JFrame {
+public class register extends javax.swing.JFrame {
 
     /**
      * Creates new form register
      */
-    public rental() {
+    public register() {
         initComponents();
     }
 
