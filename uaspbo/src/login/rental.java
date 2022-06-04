@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
  * 
  */
 public class rental extends javax.swing.JFrame {
+    //Variable
+    private int id_penyewa;
+    private int saldo;
 
     /**
      * Creates new form register
@@ -23,7 +26,20 @@ public class rental extends javax.swing.JFrame {
     public rental() {
         initComponents();
         reformatComboBox();
+        setIdPenyewa(1);
     }
+    
+    //set id penyewa
+    public void setIdPenyewa(int id_penyewa){
+        this.id_penyewa = id_penyewa;
+    }
+    
+    //get id penyewa
+    public int getIdPenyewa(){
+        return this.id_penyewa;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -193,26 +209,192 @@ public class rental extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Data wajib terisi");
         } else {
             try{
+              //id
+              int id_penyewa = getIdPenyewa();
               int id_mobil = getIdMobil(model);
               int id_supir = getIdSupir(supir);
               
-              //1.query
-              String query = "INSERT INTO transaksi VALUES ('"+ null +"', '"+ null +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', DATE_ADD('"+ tanggal_sewa + "', INTERVAL '" + lama_sewa + "' DAY ), '" + null + "', '" + null +"')";
+              //tanggal
+              String tanggal_akhir = getDateAdd(tanggal_sewa, lama_sewa);
+              
+              //perhitungan
+              int saldo = getSaldo(id_penyewa);
+              int harga_mobil = getHargaMobil(id_mobil);
+              int count_id = countIdPenyewa(id_penyewa);
+              double double_harga_mobil = harga_mobil;
+              double diskon = getDiskon(count_id, double_harga_mobil);
+              double total = getTotal(diskon, double_harga_mobil);
+              
+              
+              //1. Query
+              String query = "INSERT INTO transaksi (id_penyewa, kd_mobil, id_supir, tgl_pinjam, tgl_kembali, diskon, total) VALUES ('"+ id_penyewa +"', '"+ id_mobil +"', '"+ id_supir +"', '" + tanggal_sewa + "', '"+ tanggal_akhir +"', '"+ diskon +"', '"+ total +"')";
 
               //2. koneksi
               java.sql.Connection c = (Connection)KoneksiDB.configDB();
               java.sql.PreparedStatement s = c.prepareStatement(query);
               s.execute();
+              JOptionPane.showMessageDialog(null, "Data berhasil ditambakan");
 
-//            JOptionPane.showMessageDialog(null, id_mobil);
-//            JOptionPane.showMessageDialog(null, id_supir);            
-            
-                
+                // cek data setiap variable
+//                JOptionPane.showMessageDialog(null, id_penyewa);
+//                JOptionPane.showMessageDialog(null, id_mobil);
+//                JOptionPane.showMessageDialog(null, id_supir);            
+//                JOptionPane.showMessageDialog(null, tanggal_akhir);    
+//                JOptionPane.showMessageDialog(null, saldo); 
+//                JOptionPane.showMessageDialog(null, harga_mobil); 
+//                JOptionPane.showMessageDialog(null, count_id);    
+//                JOptionPane.showMessageDialog(null, total);  
             } catch (Exception e){
                 JOptionPane.showMessageDialog(null, "gagal");   
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    public double getTotal(double diskon, double harga_sewa){
+        double total = 0;
+        total = harga_sewa - diskon;
+
+        return total;
+    }
+    
+    public double getDiskon(double countid, double harga_sewa){
+        double diskon = 0;
+        if(countid >= 15){
+            diskon = harga_sewa * 0.3;
+        } else if (countid < 15 && countid > 5){
+            diskon = harga_sewa * 0.1;
+        } else {
+            diskon = 0;
+        }
+        
+        return diskon;
+    }
+    
+    private int countIdPenyewa(int id_penyewa){
+        int count = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT count(*) as count FROM transaksi WHERE id_penyewa = '" + id_penyewa + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 count = r.getInt("count");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return count;        
+    }
+    
+    private int getHargaMobil(int id_mobil){
+        int harga = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT harga_sewa FROM mobil WHERE id_mobil = '" + id_mobil + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 harga = r.getInt("harga_sewa");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return harga;
+             
+    }
+    private int getSaldo(int id_penyewa){
+        int saldo = 0;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT saldo FROM penyewa WHERE id_penyewa = '" + id_penyewa + "'";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 saldo = r.getInt("saldo");
+                 i++;
+
+            }  
+        } catch (Exception e){
+            
+        }
+        return saldo;
+             
+    }
+    
+    public String getDateAdd(String tanggal_sewa, int lama_sewa){
+        String tanggal = null;
+        try{
+            //1. Query get id_mobil dan supir
+            String query = "SELECT DATE_ADD('"+ tanggal_sewa + "', INTERVAL '"+ lama_sewa +"' DAY) as hari";
+            
+            //2. koneksi
+            java.sql.Connection c = (Connection)KoneksiDB.configDB();
+
+            
+            //3. kirim parameter
+            java.sql.Statement s = c.createStatement();
+
+            
+            //4. ekseskusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            
+            //5. looping model
+            int i = 1;
+            while(r.next()){
+                
+                 tanggal = r.getString("hari");
+                 i++;
+
+            }             
+        } catch (Exception e){
+            
+        }
+        return tanggal;
+        
+    }
     
     public int getIdSupir(String supir){
         int id_supir = 0;
