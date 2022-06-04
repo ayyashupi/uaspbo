@@ -26,7 +26,7 @@ public class rental extends javax.swing.JFrame {
     public rental() {
         initComponents();
         reformatComboBox();
-        setIdPenyewa(4);
+        setIdPenyewa(1);
     }
     
     //set id penyewa
@@ -56,7 +56,7 @@ public class rental extends javax.swing.JFrame {
         lbl_judul = new javax.swing.JLabel();
         lbl_supir = new javax.swing.JLabel();
         lbl_tanggal = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btn_history = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         lbl_model_mobil = new javax.swing.JLabel();
         lbl_lamaperhari = new javax.swing.JLabel();
@@ -67,6 +67,7 @@ public class rental extends javax.swing.JFrame {
         lbl_lama_sewa3 = new javax.swing.JLabel();
         lbl_lama_sewa4 = new javax.swing.JLabel();
         jtf_tggl = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         lbl_lama_sewa2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
@@ -97,19 +98,19 @@ public class rental extends javax.swing.JFrame {
         lbl_tanggal.setText("Tanggal Sewa");
         jPanel2.add(lbl_tanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 100, -1));
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(102, 102, 255));
-        jButton1.setText("Back");
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_history.setBackground(new java.awt.Color(102, 102, 255));
+        btn_history.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_history.setForeground(new java.awt.Color(102, 102, 255));
+        btn_history.setText("History");
+        btn_history.setBorderPainted(false);
+        btn_history.setContentAreaFilled(false);
+        btn_history.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_history.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_historyActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
+        jPanel2.add(btn_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(102, 102, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -122,7 +123,7 @@ public class rental extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, -1));
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, -1));
 
         lbl_model_mobil.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_model_mobil.setForeground(new java.awt.Color(102, 102, 102));
@@ -161,6 +162,20 @@ public class rental extends javax.swing.JFrame {
         jtf_tggl.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
         jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
+        jButton3.setBackground(new java.awt.Color(102, 102, 255));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(102, 102, 255));
+        jButton3.setText("Back");
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -193,9 +208,12 @@ public class rental extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_historyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_historyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        rental_history s = new rental_history(id_penyewa);
+        s.setTitle("History Transaksi");
+        s.setVisible(true);
+    }//GEN-LAST:event_btn_historyActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -255,6 +273,11 @@ public class rental extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public double getTotal(double diskon, double harga_sewa){
         double total = 0;
@@ -547,10 +570,11 @@ public class rental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_history;
     private javax.swing.JComboBox<String> cmb_model;
     private javax.swing.JComboBox<String> cmb_supir;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jtf_tggl;
