@@ -8,7 +8,7 @@ package object;
  *
  * @author User
  */
-public class penyewa extends orang {
+public class Penyewa extends Orang {
     private int id_penyewa;
     private String username;
     private String password;

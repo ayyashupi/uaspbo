@@ -8,7 +8,7 @@ package object;
  *
  * @author User
  */
-public class mobil {
+public class Mobil {
     private int id_mobil;
     private String nopol;
     private String model;

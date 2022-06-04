@@ -8,7 +8,7 @@ package object;
  *
  * @author User
  */
-public class supir extends orang{
+public class Supir extends Orang{
     private int id_supir;
     private int biaya;
     private int jml_cus;

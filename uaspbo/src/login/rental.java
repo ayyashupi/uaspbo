@@ -473,6 +473,7 @@ public class rental extends javax.swing.JFrame {
             //4. ekseskusi query
             java.sql.ResultSet r = s.executeQuery(query);
             
+            
             //5. looping model
             int i = 1;
             while(r.next()){

@@ -8,7 +8,7 @@ package object;
  *
  * @author User
  */
-public class transaksi {
+public class Transaksi {
     private int id_transaksi;
     private int id_penyewa;
     private int kd_mobil;

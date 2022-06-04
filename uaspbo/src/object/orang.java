@@ -8,7 +8,7 @@ package object;
  *
  * @author User
  */
-public class orang {
+public class Orang {
     private String nama;
     private String no_hp;
 
