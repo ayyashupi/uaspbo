@@ -39,6 +39,7 @@ public class rental_delete_history extends javax.swing.JFrame {
 
         lbl_lama_sewa2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lbl_judul = new javax.swing.JLabel();
         btn_delete = new javax.swing.JButton();
@@ -54,6 +55,7 @@ public class rental_delete_history extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,6 +69,11 @@ public class rental_delete_history extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 507, -1, -1));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
@@ -123,37 +130,21 @@ public class rental_delete_history extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 900, 100));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 900, 330));
 
         lbl_id.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_id.setForeground(new java.awt.Color(102, 102, 102));
         lbl_id.setText("0");
-        jPanel2.add(lbl_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 20, -1));
+        jPanel2.add(lbl_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 20, 30));
 
         lbl_tid.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_tid.setForeground(new java.awt.Color(102, 102, 102));
         lbl_tid.setText("Id :");
-        jPanel2.add(lbl_tid, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 20, -1));
+        jPanel2.add(lbl_tid, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 20, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 110, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 922, 500));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 540));
 
         pack();
         setLocationRelativeTo(null);
@@ -161,8 +152,10 @@ public class rental_delete_history extends javax.swing.JFrame {
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         String id = lbl_id.getText();
-        
-        try{
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Apakah anda yakin ingin menghapus Transaksi?","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            try{
             //1. Query
             String query = "DELETE FROM transaksi WHERE id_transaksi = '"+ id +"'";;
 
@@ -171,11 +164,13 @@ public class rental_delete_history extends javax.swing.JFrame {
             java.sql.PreparedStatement s = c.prepareStatement(query);
             s.execute();
             JOptionPane.showMessageDialog(null, "Data dihapus");
-        }catch(Exception e){
+            }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Data tidak terhapus");
             JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            show_table();
         }
-        show_table();
+        
 
     }//GEN-LAST:event_btn_deleteActionPerformed
 
@@ -288,6 +283,7 @@ public class rental_delete_history extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbl_id;

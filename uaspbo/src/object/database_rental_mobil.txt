@@ -115,5 +115,18 @@ where id_supir = old.id_supir;
 end %%
 delimiter ;
 
+delimiter %%
+create or replace trigger tambahSaldo
+before delete
+on transaksi FOR EACH ROW    
+begin
+
+update penyewa
+set saldo = saldo+old.total
+where id_penyewa = old.id_penyewa;
+
+end %%
+delimiter ;
+
 
 

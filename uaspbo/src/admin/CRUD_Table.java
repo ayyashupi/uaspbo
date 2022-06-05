@@ -38,7 +38,7 @@ public class CRUD_Table extends javax.swing.JFrame {
         initComponents();
         initDatabase();
         this.setLocationRelativeTo(null);
-        tipe = "Supir";
+        tipe = "Mobil";
         lbl_judul.setText("Tabel "+tipe);
         
         
@@ -226,14 +226,18 @@ public class CRUD_Table extends javax.swing.JFrame {
         String id = tbl_crud.getValueAt(row, 1).toString();
         id = id.substring(6);
         
-        if(tipe.equals("Mobil")){
-            DeleteMobil(id);
-        }else if(tipe.equals("Supir")){
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Apakah anda yakin ingin menghapus Transaksi?","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            if(tipe.equals("Mobil")){
+                DeleteMobil(id);
+            }else if(tipe.equals("Supir")){
             
-        }else if(tipe.equals("Penyewa")){
+            }else if(tipe.equals("Penyewa")){
             
+            }
+            fillTable(tipe);
         }
-        fillTable(tipe);
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
