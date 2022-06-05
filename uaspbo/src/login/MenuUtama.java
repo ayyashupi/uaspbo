@@ -4,6 +4,7 @@
  */
 package login;
 import java.sql.*;
+import object.*;
 /**
  *
  * @author ayyash
@@ -13,24 +14,23 @@ public class MenuUtama extends javax.swing.JFrame {
     /**
      * Creates new form MenuUtama
      */
-    private String username;
+    private Penyewa pengguna;
     public MenuUtama() {
         initComponents();
     }
-    private String id;
     private void getUser(String id){
         try {
             Connection con=(Connection) KoneksiDB.mysqlconfig;
             ResultSet rs;
-            String sql="select*from users where id=?";
+            String sql="select*from penyewa where id_penyewa=?";
             PreparedStatement ps=con.prepareCall(sql);
             
             ps.setString(1, id);
             
             rs=ps.executeQuery();
             if(rs.next()){
-                username=rs.getString("username");
-                this.id=rs.getInt("id")+"";
+                pengguna.setUsername(rs.getString("username"));
+                pengguna.setId_penyewa(rs.getInt("id"));
             }
                     
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class MenuUtama extends javax.swing.JFrame {
     MenuUtama(String id){
     this();
     getUser(id);
-    txtName.setText("Welcome, "+username+".");
+    txtName.setText("Welcome, "+pengguna.getNama()+".");
     }
 
     /**
@@ -157,7 +157,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private void btnProfile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfile1ActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        new Profile(id).setVisible(true);
+        new Profile(pengguna.getId_penyewa()+"").setVisible(true);
     }//GEN-LAST:event_btnProfile1ActionPerformed
 
     /**

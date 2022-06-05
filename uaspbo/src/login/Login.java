@@ -151,7 +151,7 @@ public class Login extends javax.swing.JFrame {
                         "Pesan", JOptionPane.ERROR_MESSAGE);
                 fUsername.requestFocus();
             }else{
-            String sql="select*from users where username=? and password=?";
+            String sql="select*from penyewa where username=? and password=?";
             ps=con.prepareCall(sql);
             ps.setString(1, username);
             ps.setString(2, password);
@@ -160,7 +160,7 @@ public class Login extends javax.swing.JFrame {
             
             if (rs.next()) {
                 this.dispose();
-                new MenuUtama(rs.getInt("id")+"").setVisible(true);
+                new MenuUtama(rs.getInt("id_penyewa")+"").setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Info login salah.",
                         "Pesan",JOptionPane.ERROR_MESSAGE);

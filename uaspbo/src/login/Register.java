@@ -66,6 +66,8 @@ public class Register extends javax.swing.JFrame {
         fPassword = new javax.swing.JPasswordField();
         rFemale = new javax.swing.JRadioButton();
         rMale1 = new javax.swing.JRadioButton();
+        jLabel9 = new javax.swing.JLabel();
+        fNoKtp = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -192,6 +194,16 @@ public class Register extends javax.swing.JFrame {
         });
         jPanel3.add(rMale1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel9.setText("No. Ktp");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 300, 70, -1));
+
+        fNoKtp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        fNoKtp.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        fNoKtp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        jPanel3.add(fNoKtp, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 190, 30));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -235,6 +247,7 @@ public class Register extends javax.swing.JFrame {
         String username=fUsername.getText();
         String password=fPassword.getText();
         String password2=fPassword2.getText();
+        String noktp=fNoKtp.getText();
         
         if (password.equals(password2)) {
             try {
@@ -242,8 +255,8 @@ public class Register extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Lengkapi data yang kosong.","Pesan",JOptionPane.ERROR_MESSAGE);
             }else{
             st=KoneksiDB.mysqlconfig.createStatement();
-            st.executeUpdate("insert into users(name,sex,no_telp,alamat,username,password,password2)"
-                    + " values('"+name+"','"+kelamin+"','"+no_telp+"','"+alamat+"','"+username+"','"+password+"','"+password2+"')");
+            st.executeUpdate("insert into penyewa(nama,username,password,gender,no_telp,alamat,no_ktp,saldo)"
+                    + " values('"+name+"','"+username+"','"+password+"','"+kelamin+"','"+no_telp+"','"+alamat+"','"+noktp+"',0)");
             JOptionPane.showMessageDialog(rootPane, "Register berhasil.");
             this.setVisible(false);
             new Login().setVisible(true);
@@ -317,6 +330,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnSex;
     private javax.swing.JTextField fAlamat;
     private javax.swing.JTextField fName;
+    private javax.swing.JTextField fNoKtp;
     private javax.swing.JPasswordField fPassword;
     private javax.swing.JPasswordField fPassword2;
     private javax.swing.JTextField fTelp;
@@ -329,6 +343,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton rFemale;

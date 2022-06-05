@@ -4,6 +4,7 @@
  */
 package login;
 import java.sql.*;
+import object.*;
 /**
  *
  * @author ayyash
@@ -13,7 +14,7 @@ public class Profile extends javax.swing.JFrame {
     /**
      * Creates new form Profile
      */
-    private String id,namePf,sexPf,notelpPf,alamatPf,saldoPf;
+    private Penyewa pengguna;
     public Profile() {
         initComponents();
     }
@@ -21,19 +22,19 @@ public class Profile extends javax.swing.JFrame {
         try {
             Connection con=(Connection) KoneksiDB.mysqlconfig;
             ResultSet rs;
-            String sql="select*from users where id=?";
+            String sql="select*from penyewa where id_penyewa=?";
             PreparedStatement ps=con.prepareCall(sql);
             
             ps.setString(1, id);
             
             rs=ps.executeQuery();
             if(rs.next()){
-                this.id=rs.getInt("id")+"";
-                namePf=rs.getString("name");
-                sexPf=rs.getString("sex");
-                notelpPf=rs.getString("no_telp");
-                alamatPf=rs.getString("alamat");
-                saldoPf=rs.getInt("saldo")+"";
+                pengguna.setId_penyewa(rs.getInt("id"));
+                pengguna.setNama(rs.getString("name"));
+                pengguna.setGender(rs.getString("sex"));
+                pengguna.setNo_hp(rs.getString("no_telp"));
+                pengguna.setAlamat(rs.getString("alamat"));
+                pengguna.setSaldo(rs.getInt("saldo"));
             }
                     
         } catch (Exception e) {
@@ -43,11 +44,11 @@ public class Profile extends javax.swing.JFrame {
     Profile(String id){
     this();
     getUser(id);
-    pfName.setText(namePf);
-    pfSex.setText(sexPf);
-    pfTelp.setText(notelpPf);
-    pfAlamat.setText(alamatPf);
-    pfSaldo.setText("Rp. "+saldoPf);
+    pfName.setText(pengguna.getNama());
+    pfSex.setText(pengguna.getGender());
+    pfTelp.setText(pengguna.getNo_hp());
+    pfAlamat.setText(pengguna.getAlamat());
+    pfSaldo.setText("Rp. "+pengguna.getSaldo());
  
 //    txtName.setText("Welcome, "+username+".");
     }
@@ -209,7 +210,7 @@ public class Profile extends javax.swing.JFrame {
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        new MenuUtama(id).setVisible(true);
+        new MenuUtama(pengguna.getId_penyewa()+"").setVisible(true);
     }//GEN-LAST:event_btnHomeActionPerformed
 
     /**
