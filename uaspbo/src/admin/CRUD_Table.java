@@ -38,7 +38,7 @@ public class CRUD_Table extends javax.swing.JFrame {
         initComponents();
         initDatabase();
         this.setLocationRelativeTo(null);
-        tipe = "Mobil";
+        tipe = "Supir";
         lbl_judul.setText("Tabel "+tipe);
         
         
@@ -49,6 +49,7 @@ public class CRUD_Table extends javax.swing.JFrame {
     public CRUD_Table(String tipe) {
         initComponents();
         initDatabase();
+        //Tipe = Mobil/Supir/Penyewa
         this.setLocationRelativeTo(null);
         
         lbl_judul.setText("Tabel "+tipe);

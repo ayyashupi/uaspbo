@@ -4,11 +4,12 @@
  */
 package login;
 
-import java.sql.Connection;
+import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 import login.KoneksiDB;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  *
@@ -19,15 +20,20 @@ public class form_laporan extends javax.swing.JFrame {
     /**
      * Creates new form register
      */
+    private String tipe;
     public form_laporan() {
-        initComponents();
+        this("Tabel Ranking (Penyewa)");
+//        initComponents();
 //        tampil_laporan();
 //        tampilRankingPenyewa();
+//        this.tipe = "Tabel Ranking (Supir)";
+        
     }
     
     public form_laporan(String tipe) {
         initComponents();
         lbl_judul.setText(tipe);
+        this.tipe = tipe;
         if (tipe.equals("Tabel Laporan")) {
             tampil_laporan();
         }else if (tipe.equals("Tabel Ranking (Supir)")) {
@@ -35,6 +41,8 @@ public class form_laporan extends javax.swing.JFrame {
             filter.setEnabled(false);
             tampilRankingSupir();
         }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            filter.setSelectedIndex(0);
+            filter.setEnabled(false);
             tampilRankingPenyewa();
         }
         
@@ -50,11 +58,12 @@ public class form_laporan extends javax.swing.JFrame {
         tb.addColumn("Jumlah Customer");
         tb.addColumn("Peringkat");
        
-        String cari = txtcari.getText();
+        String cari = txtcari.getText().toString();
 //        String com = (String) filter.getSelectedItem();
         try{
             int no = 1;
             // query data  + BISA SEARCH 
+//            System.out.println("The Text : " +txtcari.getText().toString());
             String query = "select id_supir, nama, no_telp, biaya, jml_cus, "
                             + "dense_rank() over(order by jml_cus desc) AS \"Peringkat\" from supir where nama LIKE '%"+cari+"%' order by jml_cus desc";
                     
@@ -66,11 +75,11 @@ public class form_laporan extends javax.swing.JFrame {
 //                            "MonthName(tgl_pinjam) LIKE'%\"+filter+\"%' group by penyewa.id_penyewa order by transaksi.total desc";
             
             // fungsi koneksi
-            java.sql.Connection vconn = (Connection)KoneksiDB.configDB();
+            Connection vconn = (Connection)KoneksiDB.configDB();
             // kirim parameter fungsi java ke sql
-            java.sql.Statement s = vconn.createStatement();
+            Statement s = vconn.createStatement();
             // eksekusi query
-            java.sql.ResultSet r = s.executeQuery(query);
+            ResultSet r = s.executeQuery(query);
             // menampilkan data (Looping)
             while(r.next()){
                 tb.addRow(new Object[]{
@@ -82,7 +91,7 @@ public class form_laporan extends javax.swing.JFrame {
             r.close();
             tbl_laporan.setModel(tb);
         }catch(Exception e){
-       
+            System.out.println(e);
         }
     }
     
@@ -354,24 +363,70 @@ public class form_laporan extends javax.swing.JFrame {
 
     private void bersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bersihActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
-        model.setRowCount(0);
-        tampil_laporan();
+        if (tipe.equals("Tabel Laporan")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampil_laporan();
+        }else if (tipe.equals("Tabel Ranking (Supir)")) {
+//            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+//            model.setRowCount(0);
+            tampilRankingSupir();
+        }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampilRankingPenyewa();
+        }
+        
     }//GEN-LAST:event_bersihActionPerformed
 
     private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
-        tampil_laporan();
+        if (tipe.equals("Tabel Laporan")) {
+//            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+//            model.setRowCount(0);
+            tampil_laporan();
+        }else if (tipe.equals("Tabel Ranking (Supir)")) {
+//            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+//            model.setRowCount(0);
+            tampilRankingSupir();
+        }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampilRankingPenyewa();
+        }
     }//GEN-LAST:event_btn_submitActionPerformed
 
     private void filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterActionPerformed
-        DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
-        model.setRowCount(0);
-        tampil_laporan();
+        if (tipe.equals("Tabel Laporan")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampil_laporan();
+        }else if (tipe.equals("Tabel Ranking (Supir)")) {
+//            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+//            model.setRowCount(0);
+            tampilRankingSupir();
+        }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampilRankingPenyewa();
+        }
     }//GEN-LAST:event_filterActionPerformed
 
     private void txtcariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcariKeyReleased
-        // TODO add your handling code here:
-        tampil_laporan();
+        System.out.println("Released");
+        if (tipe.equals("Tabel Laporan")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampil_laporan();
+        }else if (tipe.equals("Tabel Ranking (Supir)")) {
+//            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+//            model.setRowCount(0);
+            tampilRankingSupir();
+//            System.out.println("Displayed");
+        }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+            model.setRowCount(0);
+            tampilRankingPenyewa();
+        }
     }//GEN-LAST:event_txtcariKeyReleased
 
     /**
