@@ -16,14 +16,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * 
  */
-public class rental_history extends javax.swing.JFrame {
+public class RentalHistory extends javax.swing.JFrame {
     //variable
     private int id_penyewa;
     
     /**
      * Creates new form register
      */
-    public rental_history(int id_penyewa) {
+    public RentalHistory(int id_penyewa) {
         initComponents();
         reformatComboBox();
         setIdPenyewa(id_penyewa);
@@ -78,6 +78,7 @@ public class rental_history extends javax.swing.JFrame {
         lbl_lama_sewa2.setText("Lama Sewa");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -593,14 +594,25 @@ public class rental_history extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(rental_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(rental_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(rental_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(rental_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new rental_history().setVisible(true);
+//            }
+//        });
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

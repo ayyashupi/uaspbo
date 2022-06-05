@@ -67,6 +67,7 @@ public class MenuUtama extends javax.swing.JFrame {
         btnProfile1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -175,7 +176,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private void btnRentalMobilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentalMobilActionPerformed
 //        this.dispose();
 System.out.println("ID Pengguna " + pengguna.getId_penyewa());
-        rental form_rental = new rental(pengguna.getId_penyewa());
+        Rental form_rental = new Rental(pengguna.getId_penyewa());
         form_rental.setVisible(true);
     }//GEN-LAST:event_btnRentalMobilActionPerformed
 

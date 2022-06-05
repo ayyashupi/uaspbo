@@ -94,6 +94,7 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         cmb_nama_user = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RentAllCars");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -235,11 +236,11 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         
         if(!v.isEmpty(cmb_nama_user)){
 //            System.out.println("Masuk ke If");
-            rental rent = new rental();
+            Rental rent = new Rental();
 //            int id = rent.getIdSupir(cmb_nama_user.getSelectedItem().toString());
             int id = getIdPenyewa(cmb_nama_user.getSelectedItem().toString());
             System.out.println("ID User : "+id);
-            rental form_rental = new rental(id);
+            Rental form_rental = new Rental(id);
             form_rental.setVisible(true);
         }
     }//GEN-LAST:event_btn_rentalActionPerformed
@@ -252,7 +253,7 @@ public class MainMenuAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_crud_mobilActionPerformed
 
     private void btn_crud_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crud_transaksiActionPerformed
-        rental_delete_history form_baru = new rental_delete_history();
+        RentalDeleteHistory form_baru = new RentalDeleteHistory();
         this.dispose();
         form_baru.setVisible(true);
     }//GEN-LAST:event_btn_crud_transaksiActionPerformed

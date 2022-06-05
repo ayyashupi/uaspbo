@@ -19,14 +19,14 @@ import admin.*;
  *
  * 
  */
-public class rental_delete_history extends javax.swing.JFrame {
+public class RentalDeleteHistory extends javax.swing.JFrame {
     //variable
     private int id_penyewa;
     
     /**
      * Creates new form register
      */
-    public rental_delete_history() {
+    public RentalDeleteHistory() {
         initComponents();
         show_table();
         
@@ -65,6 +65,7 @@ public class rental_delete_history extends javax.swing.JFrame {
         lbl_lama_sewa2.setText("Lama Sewa");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -270,14 +271,18 @@ public class rental_delete_history extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(rental_delete_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalDeleteHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(rental_delete_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalDeleteHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(rental_delete_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalDeleteHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(rental_delete_history.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RentalDeleteHistory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -286,7 +291,7 @@ public class rental_delete_history extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new rental_delete_history().setVisible(true);
+                new RentalDeleteHistory().setVisible(true);
             }
         });
     }

@@ -77,6 +77,7 @@ public class Form_Supir extends javax.swing.JFrame {
         BiayaField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

@@ -16,7 +16,7 @@ import javax.swing.JTextField;
  *
  * 
  */
-public class rental extends javax.swing.JFrame {
+public class Rental extends javax.swing.JFrame {
     //Variable
     private int id_penyewa;
     private int saldo;
@@ -24,14 +24,14 @@ public class rental extends javax.swing.JFrame {
     /**
      * Creates new form register
      */
-    public rental() {
+    public Rental() {
         initComponents();
         reformatComboBox();
         setIdPenyewa(1);
         lbl_saldo.setText("Rp. "+getSaldo(id_penyewa));
     }
     
-    public rental(int id) {
+    public Rental(int id) {
         initComponents();
         reformatComboBox();
         setIdPenyewa(id);
@@ -85,6 +85,7 @@ public class rental extends javax.swing.JFrame {
         lbl_lama_sewa2.setText("Lama Sewa");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -252,7 +253,7 @@ public class rental extends javax.swing.JFrame {
 
     private void btn_historyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_historyActionPerformed
         // TODO add your handling code here:
-        rental_history s = new rental_history(id_penyewa);
+        RentalHistory s = new RentalHistory(id_penyewa);
         s.setTitle("History Transaksi");
         s.setVisible(true);
     }//GEN-LAST:event_btn_historyActionPerformed
@@ -716,21 +717,23 @@ public class rental extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rental.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new rental().setVisible(true);
+                new Rental().setVisible(true);
             }
         });
     }
