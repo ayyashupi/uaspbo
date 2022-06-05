@@ -21,7 +21,7 @@ public class MenuUtama extends javax.swing.JFrame {
     private void getUser(String id){
         pengguna = new Penyewa();
         try {
-            Connection con=(Connection) KoneksiDB.mysqlconfig;
+            Connection con=(Connection) KoneksiDB.configDB();
             ResultSet rs;
             String sql="select * from penyewa where id_penyewa=?";
             PreparedStatement ps=con.prepareCall(sql);
@@ -42,6 +42,7 @@ public class MenuUtama extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
+    
     MenuUtama(String id){
         this();
         getUser(id);
@@ -107,6 +108,11 @@ public class MenuUtama extends javax.swing.JFrame {
         btnRentalMobil.setBorderPainted(false);
         btnRentalMobil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRentalMobil.setPreferredSize(new java.awt.Dimension(100, 50));
+        btnRentalMobil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRentalMobilActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnRentalMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 130, 30));
 
         btnProfile1.setBackground(new java.awt.Color(102, 102, 255));
@@ -165,6 +171,13 @@ public class MenuUtama extends javax.swing.JFrame {
         this.dispose();
         new Profile(pengguna.getId_penyewa()+"").setVisible(true);
     }//GEN-LAST:event_btnProfile1ActionPerformed
+
+    private void btnRentalMobilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentalMobilActionPerformed
+//        this.dispose();
+System.out.println("ID Pengguna " + pengguna.getId_penyewa());
+        rental form_rental = new rental(pengguna.getId_penyewa());
+        form_rental.setVisible(true);
+    }//GEN-LAST:event_btnRentalMobilActionPerformed
 
     /**
      * @param args the command line arguments

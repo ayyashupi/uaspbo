@@ -5,12 +5,15 @@
 package login;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import admin.*;
 
 /**
  *
@@ -26,6 +29,14 @@ public class rental_delete_history extends javax.swing.JFrame {
     public rental_delete_history() {
         initComponents();
         show_table();
+        
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent e) {
+            MainMenuAdmin form_admin = new MainMenuAdmin();
+            form_admin.setVisible(true);
+            
+        }
+        });
     }
     
     /**
@@ -53,7 +64,7 @@ public class rental_delete_history extends javax.swing.JFrame {
         lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
         lbl_lama_sewa2.setText("Lama Sewa");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -175,7 +186,9 @@ public class rental_delete_history extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        MainMenuAdmin form_admin = new MainMenuAdmin();
+            form_admin.setVisible(true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -5,11 +5,14 @@
 package login;
 import java.sql.*;
 import javax.swing.JOptionPane;
+//import 
 
 /**
  *
  * @author ayyash
  */
+import admin.*;
+
 public class Login extends javax.swing.JFrame {
     Connection con=null;
     ResultSet rs=null;
@@ -46,6 +49,7 @@ public class Login extends javax.swing.JFrame {
         btnLogIn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RentAllCars");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -151,6 +155,13 @@ public class Login extends javax.swing.JFrame {
         String password=fPassword.getText();
         
         try {
+        if(username.equalsIgnoreCase("Admin")&&password.equalsIgnoreCase("AdminBear")){
+                MainMenuAdmin form_admin = new MainMenuAdmin();
+                form_admin.setVisible(true);
+                this.dispose();
+            }else{
+                
+            
             if(username.equals("")||password.equals("")){
                 JOptionPane.showMessageDialog(rootPane, "Lengkapi info login.",
                         "Pesan", JOptionPane.ERROR_MESSAGE);
@@ -173,6 +184,7 @@ public class Login extends javax.swing.JFrame {
                         "Pesan",JOptionPane.ERROR_MESSAGE);
             }
                   }
+        }
         } catch (Exception e) {
             e.printStackTrace();
         }

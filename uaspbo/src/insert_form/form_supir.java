@@ -4,6 +4,12 @@
  */
 package insert_form;
 
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import login.KoneksiDB;
+import object.*;
+
 /**
  *
  * @author ayyash
@@ -13,8 +19,35 @@ public class Form_Supir extends javax.swing.JFrame {
     /**
      * Creates new form register
      */
+    private Connection conn;
+    private String tipe_aksi;
+    private String id_supir;
+    
+    private void initDatabase(){
+        try{
+        conn = (Connection)KoneksiDB.configDB();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+    }
+    
     public Form_Supir() {
         initComponents();
+        initDatabase();
+        tipe_aksi = "Tambah Supir";
+        lbl_judul.setText(tipe_aksi);
+        btn_submit.setText("Tambah");
+    }
+    
+    public Form_Supir(String id){
+        initComponents();
+        initDatabase();
+        tipe_aksi = "Edit Supir";
+        lbl_judul.setText(tipe_aksi);
+        btn_submit.setText("Edit");
+        id_supir = id;
+        fillForm(getSupir(id_supir));
+        
     }
 
     /**
@@ -28,19 +61,20 @@ public class Form_Supir extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_judul = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         NoHPField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        BiayaField = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_back = new javax.swing.JButton();
+        btn_submit = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         NamaField = new javax.swing.JTextField();
-        CutomerField = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        StautsField = new javax.swing.JComboBox<>();
+        StatusField = new javax.swing.JComboBox<>();
+        lbl_error = new javax.swing.JLabel();
+        CusField = new javax.swing.JTextField();
+        BiayaField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -52,10 +86,10 @@ public class Form_Supir extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 400));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Form Supir");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 300, -1));
+        lbl_judul.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_judul.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_judul.setText("Form Supir");
+        jPanel2.add(lbl_judul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 300, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -64,6 +98,11 @@ public class Form_Supir extends javax.swing.JFrame {
 
         NoHPField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         NoHPField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        NoHPField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                NoHPFieldKeyReleased(evt);
+            }
+        });
         jPanel2.add(NoHPField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 220, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -71,36 +110,32 @@ public class Form_Supir extends javax.swing.JFrame {
         jLabel5.setText("Biaya");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 80, -1));
 
-        BiayaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        BiayaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(BiayaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
-
-        jButton1.setBackground(new java.awt.Color(102, 102, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(102, 102, 255));
-        jButton1.setText("Back");
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_back.setBackground(new java.awt.Color(102, 102, 255));
+        btn_back.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_back.setForeground(new java.awt.Color(102, 102, 255));
+        btn_back.setText("Back");
+        btn_back.setBorderPainted(false);
+        btn_back.setContentAreaFilled(false);
+        btn_back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_backActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
+        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(102, 102, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Register");
-        jButton2.setBorderPainted(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_submit.setBackground(new java.awt.Color(102, 102, 255));
+        btn_submit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_submit.setForeground(new java.awt.Color(255, 255, 255));
+        btn_submit.setText("Register");
+        btn_submit.setBorderPainted(false);
+        btn_submit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_submitActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, -1, -1));
+        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, 90, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
@@ -110,10 +145,6 @@ public class Form_Supir extends javax.swing.JFrame {
         NamaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         NamaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
         jPanel2.add(NamaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 220, 30));
-
-        CutomerField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        CutomerField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(CutomerField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 90, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
@@ -125,14 +156,33 @@ public class Form_Supir extends javax.swing.JFrame {
         jLabel10.setText("Status");
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
 
-        StautsField.setEditable(true);
-        StautsField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tersedia", "Tidak Tersedia" }));
-        StautsField.addActionListener(new java.awt.event.ActionListener() {
+        StatusField.setEditable(true);
+        StatusField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Tersedia", "Tidak Tersedia" }));
+        StatusField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StautsFieldActionPerformed(evt);
+                StatusFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(StautsField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 90, 30));
+        jPanel2.add(StatusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 90, 30));
+        jPanel2.add(lbl_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 220, 20));
+
+        CusField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        CusField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        CusField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CusFieldKeyReleased(evt);
+            }
+        });
+        jPanel2.add(CusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 90, 30));
+
+        BiayaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        BiayaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        BiayaField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                BiayaFieldKeyReleased(evt);
+            }
+        });
+        jPanel2.add(BiayaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,18 +218,158 @@ public class Form_Supir extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btn_backActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
+        Validator v = new Validator();
+        if(!v.isEmpty(NamaField)&&
+                !v.isEmpty(BiayaField)&&
+                !v.isEmpty(StatusField)&&
+                !v.isEmpty(NoHPField)&&
+                !v.isEmpty(CusField)
+                ){
+            if(tipe_aksi.equals("Tambah Supir")){
+                insertSupir();
+            }else if(tipe_aksi.equals("Edit Supir")){
+                editSupir(id_supir);
+            }else{
+                System.out.println("No Type Inputted");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Form belum Komplit");
+        }
+    }//GEN-LAST:event_btn_submitActionPerformed
 
-    private void StautsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StautsFieldActionPerformed
+    private void StatusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_StautsFieldActionPerformed
+    }//GEN-LAST:event_StatusFieldActionPerformed
 
+    private void CusFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CusFieldKeyReleased
+        resetText(CusField);
+    }//GEN-LAST:event_CusFieldKeyReleased
+
+    private void BiayaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BiayaFieldKeyReleased
+        resetText(BiayaField);
+    }//GEN-LAST:event_BiayaFieldKeyReleased
+
+    private void NoHPFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NoHPFieldKeyReleased
+       resetText(NoHPField);
+    }//GEN-LAST:event_NoHPFieldKeyReleased
+    
+    private void resetText(JTextField txt){
+        try {
+            int angka = Integer.parseInt(txt.getText());
+            lbl_error.setText("");
+        } catch (NumberFormatException e) {
+                lbl_error.setText("Tolong Masukan Angka");
+                StringBuffer sb = new StringBuffer(txt.getText().toString());
+                sb.deleteCharAt(sb.length()-1);
+                txt.setText(sb+"");
+        }
+    }
+    
+    private void insertSupir(){
+        try{
+            Connection conn = (Connection)KoneksiDB.configDB();
+            Statement state = conn.createStatement();
+                
+            Supir driver = new Supir();
+            
+//            pengguna.setHarga_sewa(Integer.valueOf(No.getText().toString()));
+                
+            driver.setNama(NamaField.getText().toString());
+//            driver.setUsername(UsernameField.getText().toString());
+//            driver.setPassword(PassField.getText().toString());
+            driver.setNo_hp(NoHPField.getText().toString());
+            driver.setBiaya(Integer.valueOf(BiayaField.getText().toString()));
+            driver.setJml_cus(Integer.valueOf(CusField.getText().toString()));
+            driver.setStatus(StatusField.getSelectedItem().toString());
+                
+            String query = "insert into supir(nama,no_telp,biaya,jml_cus,status) values "
+                    + "("
+                    + "'" + driver.getNama()+ "',"
+                    + "'" + driver.getNo_hp()+ "',"
+                    + "" + driver.getBiaya()+ ","
+                    + "" + driver.getJml_cus()+ ","
+                    + "'" + driver.getStatus()+ "'"
+                    + ")";
+                
+            state.execute(query);
+            JOptionPane.showMessageDialog(null, "Supir Berhasil Ditambah");
+            this.dispose();
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Database Error");
+        }
+    }
+    
+    private void editSupir(String id){
+        try{
+            Statement state = conn.createStatement();
+            
+            Supir driver = new Supir();
+                
+            driver.setId_supir(Integer.valueOf(id));
+            driver.setNama(NamaField.getText().toString());
+            driver.setNo_hp(NoHPField.getText().toString());
+            driver.setBiaya(Integer.valueOf(BiayaField.getText().toString()));
+            driver.setJml_cus(Integer.valueOf(CusField.getText().toString()));
+            driver.setStatus(StatusField.getSelectedItem().toString());
+            
+            String query = "update supir set "
+                    + "nama = '" + driver.getNama() + "',"
+                    + "no_telp = '"+ driver.getNo_hp()+ "',"
+                    + "biaya = " + driver.getBiaya()+ ","
+                    + "jml_cus = " + driver.getJml_cus()+ ","
+                    + "status = '" + driver.getStatus()+ "'"
+                    + " where id_supir = "+driver.getId_supir();
+                
+            state.executeUpdate(query);
+            state.close();
+            JOptionPane.showMessageDialog(null, "Supir Berhasil Diedit");
+            this.dispose();
+        }catch(Exception ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Database Error");
+        }
+    }
+    
+    private Supir getSupir(String id){
+        Supir driver = new Supir();
+        try{
+            Statement state = conn.createStatement();
+            String query = "Select * from supir where id_supir = "+id;
+            
+            ResultSet rs = state.executeQuery(query);
+            
+            while(rs.next()){
+                driver.setId_supir(rs.getInt("id_supir"));
+                driver.setNama(rs.getString("nama"));
+                driver.setStatus(rs.getString("status"));
+                driver.setNo_hp(rs.getString("no_telp"));
+                driver.setBiaya(rs.getInt("biaya"));
+                driver.setJml_cus(rs.getInt("jml_cus"));
+//                penggunabaru.set
+            }
+            state.close();
+            rs.close();
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return driver;
+    }
+    
+    private void fillForm(Supir driver){
+        NamaField.setText(driver.getNama());
+        NoHPField.setText(driver.getNo_hp());
+        BiayaField.setText(driver.getBiaya()+"");
+        CusField.setText(driver.getJml_cus()+"");
+        StatusField.setSelectedItem(driver.getStatus());
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -231,20 +421,21 @@ public class Form_Supir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField BiayaField;
-    private javax.swing.JPasswordField CutomerField;
+    private javax.swing.JTextField BiayaField;
+    private javax.swing.JTextField CusField;
     private javax.swing.JTextField NamaField;
     private javax.swing.JTextField NoHPField;
-    private javax.swing.JComboBox<String> StautsField;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> StatusField;
+    private javax.swing.JButton btn_back;
+    private javax.swing.JButton btn_submit;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbl_error;
+    private javax.swing.JLabel lbl_judul;
     // End of variables declaration//GEN-END:variables
 }

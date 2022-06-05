@@ -5,6 +5,8 @@
 package admin;
 import object.*;
 import insert_form.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import java.sql.*;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class CRUD_Table extends javax.swing.JFrame {
         initComponents();
         initDatabase();
         this.setLocationRelativeTo(null);
-        tipe = "Mobil";
+        tipe = "Supir";
         lbl_judul.setText("Tabel "+tipe);
         
         
@@ -54,8 +56,17 @@ public class CRUD_Table extends javax.swing.JFrame {
         
         lbl_judul.setText("Tabel "+tipe);
         this.tipe = tipe;
-        
+        System.out.println("Tipenya : "+tipe);
+        System.out.println("Thisnya : "+this.tipe);
         fillTable(tipe);
+        
+        this.addWindowListener(new WindowAdapter() {
+        public void windowClosing(WindowEvent e) {
+            MainMenuAdmin mainmenu = new MainMenuAdmin();
+            mainmenu.setVisible(true);
+            
+        }
+        });
     }
 
     /**
@@ -81,7 +92,7 @@ public class CRUD_Table extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jEditorPane1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -194,7 +205,13 @@ public class CRUD_Table extends javax.swing.JFrame {
         }else{
             
         String id = tbl_crud.getValueAt(row, 1).toString();
-        id = id.substring(6);
+            if (tipe.equals("Penyewa")) {
+                id = id.substring(5);
+                System.out.println("Tipe Sesuai");
+            }else{
+                id = id.substring(6);
+            }
+        
         
         if(tipe.equals("Mobil")){
             Form_Mobil formbaru = new Form_Mobil(id);
@@ -203,13 +220,13 @@ public class CRUD_Table extends javax.swing.JFrame {
             formbaru.setVisible(true);
             
         }else if(tipe.equals("Supir")){
-            Form_Supir formbaru = new Form_Supir();
+            Form_Supir formbaru = new Form_Supir(id);
             formbaru.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             formbaru.setLocationRelativeTo(null);
             formbaru.setVisible(true);
             
         }else if(tipe.equals("Penyewa")){
-            Form_Penyewa formbaru = new Form_Penyewa();
+            Form_Penyewa formbaru = new Form_Penyewa(id);
             formbaru.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             formbaru.setLocationRelativeTo(null);
             formbaru.setVisible(true);
@@ -233,9 +250,9 @@ public class CRUD_Table extends javax.swing.JFrame {
             if(tipe.equals("Mobil")){
                 DeleteMobil(id);
             }else if(tipe.equals("Supir")){
-            
+                DeletePenyewa(id);
             }else if(tipe.equals("Penyewa")){
-            
+                DeleteSupir(id);
             }
             fillTable(tipe);
         }
@@ -276,9 +293,72 @@ public class CRUD_Table extends javax.swing.JFrame {
             list.clear();
             
         }else if(tipe.equals("Supir")){
+            System.out.println("Its in fillTable");
+            System.out.println("Tipe Aksi : "+tipe);
+            DefaultTableModel dtm = new DefaultTableModel();
+            tbl_crud.setModel(dtm);
+            
+            dtm.addColumn("No. ");
+            dtm.addColumn("ID Supir");
+            dtm.addColumn("Nama");
+            dtm.addColumn("No. Telp");
+            dtm.addColumn("Biaya");
+            dtm.addColumn("Jumlah Customer");
+            dtm.addColumn("Status");
+//            dtm.addColumn("Harga Sewa");
+//            dtm.addColumn("Status");
+            
+            tbl_crud.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_crud.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tbl_crud.getColumnModel().getColumn(2).setPreferredWidth(30);
+            
+            ArrayList<Supir> list = new ArrayList();
+            list = getAllSupir();
+            
+            for(int i = 0;i<list.size();i++){
+                Supir driver = list.get(i);
+                dtm.addRow(new Object[]{i+1,"SPR 00"+driver.getId_supir(),
+                    driver.getNama(),
+                    driver.getNo_hp(),
+                    driver.getBiaya(),
+                    driver.getJml_cus(),
+                    driver.getStatus()});
+            }
+            list.clear();
             
         }else if(tipe.equals("Penyewa")){
+            System.out.println("Its in fillTable");
+            System.out.println("Tipe Aksi : "+tipe);
+            DefaultTableModel dtm = new DefaultTableModel();
+            tbl_crud.setModel(dtm);
             
+            dtm.addColumn("No. ");
+            dtm.addColumn("ID Penyewa");
+            dtm.addColumn("Nama");
+            dtm.addColumn("Gender");
+            dtm.addColumn("No. Telp");
+            dtm.addColumn("Alamat");
+            dtm.addColumn("Saldo");
+//            dtm.addColumn("Harga Sewa");
+//            dtm.addColumn("Status");
+            
+            tbl_crud.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_crud.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tbl_crud.getColumnModel().getColumn(2).setPreferredWidth(30);
+            
+            ArrayList<Penyewa> list = new ArrayList();
+            list = getAllPenyewa();
+            
+            for(int i = 0;i<list.size();i++){
+                Penyewa pengguna = list.get(i);
+                dtm.addRow(new Object[]{i+1,"SW 00"+pengguna.getId_penyewa(),
+                    pengguna.getNama(),
+                    pengguna.getGender(),
+                    pengguna.getNo_hp(),
+                    pengguna.getAlamat(),
+                    pengguna.getSaldo()});
+            }
+            list.clear();
         }
         
     }
@@ -328,6 +408,99 @@ public class CRUD_Table extends javax.swing.JFrame {
         
         return list_mobil;
     }
+    
+    private void DeletePenyewa(String id){
+        try{
+            Statement state = conn.createStatement();
+            String query = "delete from penyewa where id_penyewa = "+id;
+            state.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Penyewa Berhasil di Hapus");
+            state.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Penyewa Gagal di Hapus");
+        }
+    }
+    
+    private ArrayList<Penyewa> getAllPenyewa(){
+        ArrayList<Penyewa> list_penyewa = new ArrayList();
+        try{
+            Statement state = conn.createStatement();
+            String query = "Select * from penyewa";
+            ResultSet rs = state.executeQuery(query);
+            
+            while(rs.next()){
+                Penyewa penggunabaru = new Penyewa();
+                
+                penggunabaru.setId_penyewa(rs.getInt("id_penyewa"));
+                penggunabaru.setNama(rs.getString("nama"));
+                penggunabaru.setUsername(rs.getString("username"));
+                penggunabaru.setPassword(rs.getString("password"));
+                penggunabaru.setGender(rs.getString("gender"));
+                penggunabaru.setNo_hp(rs.getString("no_telp"));
+                penggunabaru.setAlamat(rs.getString("alamat"));
+                penggunabaru.setNo_ktp(rs.getString("no_ktp"));
+                penggunabaru.setSaldo(rs.getInt("saldo"));
+                
+                list_penyewa.add(penggunabaru);
+            
+            }
+            state.close();
+            rs.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        
+        
+        
+        return list_penyewa;
+    }
+    
+    private void DeleteSupir(String id){
+        try{
+            Statement state = conn.createStatement();
+            String query = "delete from supir where id_supir = "+id;
+            state.executeUpdate(query);
+            JOptionPane.showMessageDialog(null, "Supir Berhasil di Hapus");
+            state.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Supir Gagal di Hapus");
+        }
+    }
+    
+    private ArrayList<Supir> getAllSupir(){
+        ArrayList<Supir> list_supir = new ArrayList();
+        try{
+            Statement state = conn.createStatement();
+            String query = "Select * from supir";
+            ResultSet rs = state.executeQuery(query);
+            
+            while(rs.next()){
+                Supir driver = new Supir();
+                
+                driver.setId_supir(rs.getInt("id_supir"));
+                driver.setNama(rs.getString("nama"));
+                driver.setStatus(rs.getString("status"));
+                driver.setNo_hp(rs.getString("no_telp"));
+                driver.setBiaya(rs.getInt("biaya"));
+                driver.setJml_cus(rs.getInt("jml_cus"));
+                
+                list_supir.add(driver);
+            
+            }
+            state.close();
+            rs.close();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        
+        
+        
+        return list_supir;
+    }
+    
+    
     
     /**
      * @param args the command line arguments

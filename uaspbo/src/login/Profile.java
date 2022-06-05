@@ -4,6 +4,7 @@
  */
 package login;
 import java.sql.*;
+import javax.swing.JOptionPane;
 import object.*;
 /**
  *
@@ -19,23 +20,26 @@ public class Profile extends javax.swing.JFrame {
         initComponents();
     }
     private void getUser(String id){
+        pengguna = new Penyewa();
         try {
-            Connection con=(Connection) KoneksiDB.mysqlconfig;
+            Connection con=(Connection) KoneksiDB.configDB();
             ResultSet rs;
-            String sql="select*from penyewa where id_penyewa=?";
+            String sql="select * from penyewa where id_penyewa=?";
             PreparedStatement ps=con.prepareCall(sql);
             
             ps.setString(1, id);
             
             rs=ps.executeQuery();
             if(rs.next()){
-                pengguna.setId_penyewa(rs.getInt("id"));
-                pengguna.setNama(rs.getString("name"));
-                pengguna.setGender(rs.getString("sex"));
+                pengguna.setId_penyewa(rs.getInt("id_penyewa"));
+                pengguna.setNama(rs.getString("nama"));
+                pengguna.setGender(rs.getString("gender"));
                 pengguna.setNo_hp(rs.getString("no_telp"));
                 pengguna.setAlamat(rs.getString("alamat"));
                 pengguna.setSaldo(rs.getInt("saldo"));
             }
+            rs.close();
+            ps.close();
                     
         } catch (Exception e) {
         }
@@ -204,7 +208,7 @@ public class Profile extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTopUpActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Datangi Gerai RentAllCars Terdekat untuk Melakukan Top Up");
     }//GEN-LAST:event_btnTopUpActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed

@@ -84,7 +84,7 @@ public class rental extends javax.swing.JFrame {
         lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
         lbl_lama_sewa2.setText("Lama Sewa");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -121,7 +121,7 @@ public class rental extends javax.swing.JFrame {
                 btn_historyActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, -1, -1));
+        jPanel2.add(btn_history, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 450, -1, -1));
 
         btn_booking.setBackground(new java.awt.Color(102, 102, 255));
         btn_booking.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -134,7 +134,7 @@ public class rental extends javax.swing.JFrame {
                 btn_bookingActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_booking, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, -1, -1));
+        jPanel2.add(btn_booking, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 450, -1, -1));
 
         lbl_model_mobil.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_model_mobil.setForeground(new java.awt.Color(102, 102, 102));
@@ -196,14 +196,16 @@ public class rental extends javax.swing.JFrame {
                 btn_backActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
+        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, -1, -1));
 
         lbl_total.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_total.setForeground(new java.awt.Color(102, 102, 255));
+        lbl_total.setText("Rp. 0");
         jPanel2.add(lbl_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 160, 30));
 
         lbl_saldo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_saldo.setForeground(new java.awt.Color(102, 102, 255));
+        lbl_saldo.setText("Rp. 0");
         jPanel2.add(lbl_saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 160, 30));
 
         lbl_saldo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -259,11 +261,12 @@ public class rental extends javax.swing.JFrame {
         // TODO add your handling code here:
         String model = (String) cmb_model.getSelectedItem();
         String supir = (String) cmb_supir.getSelectedItem();
-        String tanggal_sewa = jtf_tggl.getText();
+        String tanggal_sewa = jtf_tggl.getText().toString();
+        System.out.println("Tanggal Sewa ");
         int lama_sewa = (Integer) spn_waktu.getValue();
 //        String waktu_sewa = Integer.toString(lama_sewa);
         
-        if(model == "Pilih Mobil" || supir == "Pilih Supir" || tanggal_sewa == "" || tanggal_sewa == "YYYY-MM-DD" || lama_sewa == 0){
+        if(model.equals("Pilih Mobil") || supir.equals("Pilih Supir") || tanggal_sewa.equals("") || tanggal_sewa.endsWith("YYYY-MM-DD")  || lama_sewa == 0){
             JOptionPane.showMessageDialog(null, "Data wajib terisi");
         } else {
             try{
@@ -327,9 +330,8 @@ public class rental extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_bookingActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-//        MainMenu menu = new MainMenu();
-//        menu.setVisible(true);
-//        this.dispose();
+        
+        this.dispose();
     }//GEN-LAST:event_btn_backActionPerformed
 
     private void spn_waktuStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spn_waktuStateChanged
