@@ -19,6 +19,11 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() {
         initComponents();
+        try{
+           con = KoneksiDB.configDB();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
     }
     private void kosongin(){
         fName.setText("");
@@ -264,6 +269,7 @@ public class Register extends javax.swing.JFrame {
         }catch(Exception e){  
             JOptionPane.showMessageDialog(this, "Akun sudah ada.",
                     "Pesan",JOptionPane.WARNING_MESSAGE);
+                System.out.println(e);
            kosongin();
         }
         }else{

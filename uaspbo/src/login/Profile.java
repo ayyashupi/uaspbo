@@ -111,7 +111,7 @@ public class Profile extends javax.swing.JFrame {
                 btnTopUpActionPerformed(evt);
             }
         });
-        jPanel2.add(btnTopUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 70, 20));
+        jPanel2.add(btnTopUp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 90, 20));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));

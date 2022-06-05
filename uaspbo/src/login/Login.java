@@ -19,7 +19,12 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        con=KoneksiDB.mysqlconfig;
+        try{
+            con=(Connection)KoneksiDB.configDB();
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+//        con=KoneksiDB.mysqlconfig;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,7 +157,8 @@ public class Login extends javax.swing.JFrame {
                 fUsername.requestFocus();
             }else{
             String sql="select*from penyewa where username=? and password=?";
-            ps=con.prepareCall(sql);
+//            ps=con.prepareCall(sql);
+            ps=con.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
             
@@ -160,6 +166,7 @@ public class Login extends javax.swing.JFrame {
             
             if (rs.next()) {
                 this.dispose();
+//                System.out.println("ID : "+rs.getInt("id_penyewa")+"");
                 new MenuUtama(rs.getInt("id_penyewa")+"").setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Info login salah.",

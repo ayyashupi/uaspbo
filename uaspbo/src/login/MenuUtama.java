@@ -19,27 +19,33 @@ public class MenuUtama extends javax.swing.JFrame {
         initComponents();
     }
     private void getUser(String id){
+        pengguna = new Penyewa();
         try {
             Connection con=(Connection) KoneksiDB.mysqlconfig;
             ResultSet rs;
-            String sql="select*from penyewa where id_penyewa=?";
+            String sql="select * from penyewa where id_penyewa=?";
             PreparedStatement ps=con.prepareCall(sql);
             
             ps.setString(1, id);
             
             rs=ps.executeQuery();
             if(rs.next()){
+//                System.out.println("Its in");
                 pengguna.setUsername(rs.getString("username"));
-                pengguna.setId_penyewa(rs.getInt("id"));
+                pengguna.setId_penyewa(rs.getInt("id_penyewa"));
+                pengguna.setNama(rs.getString("nama"));
+                System.out.println(rs.getString("nama"));
+                System.out.println(pengguna.getNama());
             }
                     
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
     MenuUtama(String id){
-    this();
-    getUser(id);
-    txtName.setText("Welcome, "+pengguna.getNama()+".");
+        this();
+        getUser(id);
+        txtName.setText("Welcome, "+pengguna.getNama()+".");
     }
 
     /**

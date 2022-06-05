@@ -28,6 +28,14 @@ public class rental extends javax.swing.JFrame {
         initComponents();
         reformatComboBox();
         setIdPenyewa(1);
+        lbl_saldo.setText("Rp. "+getSaldo(id_penyewa));
+    }
+    
+    public rental(int id) {
+        initComponents();
+        reformatComboBox();
+        setIdPenyewa(id);
+        lbl_saldo.setText("Rp. "+getSaldo(id_penyewa));
     }
     
     //set id penyewa
@@ -68,6 +76,9 @@ public class rental extends javax.swing.JFrame {
         jtf_tggl = new javax.swing.JTextField();
         btn_back = new javax.swing.JButton();
         lbl_total = new javax.swing.JLabel();
+        lbl_saldo = new javax.swing.JLabel();
+        lbl_saldo1 = new javax.swing.JLabel();
+        lbl_total1 = new javax.swing.JLabel();
 
         lbl_lama_sewa2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
@@ -189,8 +200,21 @@ public class rental extends javax.swing.JFrame {
 
         lbl_total.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_total.setForeground(new java.awt.Color(102, 102, 255));
-        lbl_total.setText("Total :");
-        jPanel2.add(lbl_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 250, 30));
+        jPanel2.add(lbl_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 160, 30));
+
+        lbl_saldo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_saldo.setForeground(new java.awt.Color(102, 102, 255));
+        jPanel2.add(lbl_saldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 160, 30));
+
+        lbl_saldo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_saldo1.setForeground(new java.awt.Color(102, 102, 255));
+        lbl_saldo1.setText("Saldo Anda :");
+        jPanel2.add(lbl_saldo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 250, 30));
+
+        lbl_total1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_total1.setForeground(new java.awt.Color(102, 102, 255));
+        lbl_total1.setText("Total :");
+        jPanel2.add(lbl_total1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 210, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -339,6 +363,7 @@ public class rental extends javax.swing.JFrame {
             int harga_supir = getHargaSupir(getIdSupir(cmb_supir.getSelectedItem().toString()));
             int total = durasi *(harga_supir + getHargaMobil(getIdMobil(cmb_model.getSelectedItem().toString())));
             lbl_total.setText("Rp. "+total);
+            lbl_saldo.setText("Rp. "+getSaldo(id_penyewa));
         }
         
 //        int total = 0;
@@ -722,9 +747,12 @@ public class rental extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_lama_sewa3;
     private javax.swing.JLabel lbl_lamaperhari;
     private javax.swing.JLabel lbl_model_mobil;
+    private javax.swing.JLabel lbl_saldo;
+    private javax.swing.JLabel lbl_saldo1;
     private javax.swing.JLabel lbl_supir;
     private javax.swing.JLabel lbl_tanggal;
     private javax.swing.JLabel lbl_total;
+    private javax.swing.JLabel lbl_total1;
     private javax.swing.JSpinner spn_waktu;
     // End of variables declaration//GEN-END:variables
 }
