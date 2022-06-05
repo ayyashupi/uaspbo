@@ -92,6 +92,10 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         btn_rental = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cmb_nama_user = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        btn_rank_penyewa = new javax.swing.JButton();
+        btn_pendapatan = new javax.swing.JButton();
+        btn_rank_supir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RentAllCars");
@@ -122,7 +126,7 @@ public class MainMenuAdmin extends javax.swing.JFrame {
                 btnLogOutActionPerformed(evt);
             }
         });
-        jPanel2.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 130, 30));
+        jPanel2.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 440, 30));
 
         btn_crud_mobil.setBackground(new java.awt.Color(102, 102, 255));
         btn_crud_mobil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -167,8 +171,8 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Manage Data");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 350, -1));
+        jLabel4.setText("Laporan");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, 130, -1));
 
         btn_crud_transaksi.setBackground(new java.awt.Color(102, 102, 255));
         btn_crud_transaksi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -195,18 +199,66 @@ public class MainMenuAdmin extends javax.swing.JFrame {
                 btn_rentalActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_rental, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 110, 30));
+        jPanel2.add(btn_rental, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 110, 40));
 
         jLabel1.setText("Nama User");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
 
         cmb_nama_user.setEditable(true);
         cmb_nama_user.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--Pilih--" }));
-        jPanel2.add(cmb_nama_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 160, 30));
+        jPanel2.add(cmb_nama_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 160, 40));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, 390));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Manage Data");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 280, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 490));
+        btn_rank_penyewa.setBackground(new java.awt.Color(102, 102, 255));
+        btn_rank_penyewa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_rank_penyewa.setForeground(new java.awt.Color(255, 255, 255));
+        btn_rank_penyewa.setText("Ranking Penyewa");
+        btn_rank_penyewa.setBorderPainted(false);
+        btn_rank_penyewa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_rank_penyewa.setPreferredSize(new java.awt.Dimension(100, 50));
+        btn_rank_penyewa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_rank_penyewaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_rank_penyewa, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, 130, 40));
+
+        btn_pendapatan.setBackground(new java.awt.Color(102, 102, 255));
+        btn_pendapatan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_pendapatan.setForeground(new java.awt.Color(255, 255, 255));
+        btn_pendapatan.setText("Pendapatan");
+        btn_pendapatan.setBorderPainted(false);
+        btn_pendapatan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_pendapatan.setPreferredSize(new java.awt.Dimension(100, 50));
+        btn_pendapatan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pendapatanActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_pendapatan, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, 130, 40));
+
+        btn_rank_supir.setBackground(new java.awt.Color(102, 102, 255));
+        btn_rank_supir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btn_rank_supir.setForeground(new java.awt.Color(255, 255, 255));
+        btn_rank_supir.setText("Ranking Supir");
+        btn_rank_supir.setBorderPainted(false);
+        btn_rank_supir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_rank_supir.setPreferredSize(new java.awt.Dimension(100, 50));
+        btn_rank_supir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_rank_supirActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_rank_supir, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, 130, 40));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 520, 390));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -257,6 +309,21 @@ public class MainMenuAdmin extends javax.swing.JFrame {
         this.dispose();
         form_baru.setVisible(true);
     }//GEN-LAST:event_btn_crud_transaksiActionPerformed
+
+    private void btn_rank_penyewaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rank_penyewaActionPerformed
+        FormLaporan form_baru = new FormLaporan("Tabel Ranking (Penyewa)");
+        form_baru.setVisible(true);
+    }//GEN-LAST:event_btn_rank_penyewaActionPerformed
+
+    private void btn_pendapatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pendapatanActionPerformed
+        FormLaporan form_baru = new FormLaporan("Tabel Laporan");
+        form_baru.setVisible(true);
+    }//GEN-LAST:event_btn_pendapatanActionPerformed
+
+    private void btn_rank_supirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rank_supirActionPerformed
+        FormLaporan form_baru = new FormLaporan("Tabel Ranking (Supir)");
+        form_baru.setVisible(true);
+    }//GEN-LAST:event_btn_rank_supirActionPerformed
     
     private int getIdPenyewa(String nama){
         int id_penyewa = 0;
@@ -316,10 +383,14 @@ public class MainMenuAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btn_crud_penyewa;
     private javax.swing.JButton btn_crud_supir;
     private javax.swing.JButton btn_crud_transaksi;
+    private javax.swing.JButton btn_pendapatan;
+    private javax.swing.JButton btn_rank_penyewa;
+    private javax.swing.JButton btn_rank_supir;
     private javax.swing.JButton btn_rental;
     private javax.swing.JComboBox<String> cmb_nama_user;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbl_nama;
