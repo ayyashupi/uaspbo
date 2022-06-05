@@ -21,31 +21,42 @@ public class form_laporan extends javax.swing.JFrame {
      */
     public form_laporan() {
         initComponents();
-        tampil_laporan();
+//        tampil_laporan();
+//        tampilRankingPenyewa();
     }
-  private void tampil_laporan(){
-       DefaultTableModel tb = new DefaultTableModel ();
+    
+    public form_laporan(String tipe) {
+        initComponents();
+        lbl_judul.setText(tipe);
+        if (tipe.equals("Tabel Laporan")) {
+            tampil_laporan();
+        }else if (tipe.equals("Tabel Ranking (Supir)")) {
+            filter.setSelectedIndex(0);
+            filter.setEnabled(false);
+            tampilRankingSupir();
+        }else if (tipe.equals("Tabel Ranking (Penyewa)")) {
+            tampilRankingPenyewa();
+        }
+        
+    }
+    
+    private void tampilRankingSupir(){
+        DefaultTableModel tb = new DefaultTableModel ();
         tb.addColumn("No");
-        tb.addColumn("ID Penyewa");
-        tb.addColumn("Nama Penyewa");
-        tb.addColumn("Jumlah Transaksi");
         tb.addColumn("ID Supir");
         tb.addColumn("Nama Supir");
-        tb.addColumn("Peminjaman");
-        tb.addColumn("Pengembalian");
-        tb.addColumn("Total Transaksi");
-        tb.addColumn("Peringkat Penyewa");
+        tb.addColumn("No Telp");
+        tb.addColumn("Biaya");
+        tb.addColumn("Jumlah Customer");
+        tb.addColumn("Peringkat");
        
         String cari = txtcari.getText();
-        String com = (String) filter.getSelectedItem();
+//        String com = (String) filter.getSelectedItem();
         try{
             int no = 1;
             // query data  + BISA SEARCH 
-            String query = "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
-                            "supir.id_supir as \"ID Supir\", supir.nama as \"Nama Supir\", transaksi.tgl_pinjam as \"Peminjaman\", transaksi.tgl_kembali as \"Pengembalian\", sum(transaksi.total) as \"Total Transaksi\",\n" +
-                            "dense_rank() over(Order by transaksi.total desc) as \"Peringkat Penyewa\"\n" +
-                            "from transaksi inner join penyewa on penyewa.id_penyewa = transaksi.id_penyewa inner join supir on transaksi.id_supir = supir.id_supir \n" +
-                            "where transaksi.tgl_pinjam LIKE'%"+cari+"%' group by penyewa.id_penyewa order by transaksi.total desc";
+            String query = "select id_supir, nama, no_telp, biaya, jml_cus, "
+                            + "dense_rank() over(order by jml_cus desc) AS \"Peringkat\" from supir where nama LIKE '%"+cari+"%' order by jml_cus desc";
                     
         //FILTER BELUM BISA    
 //                 "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
@@ -65,10 +76,126 @@ public class form_laporan extends javax.swing.JFrame {
                 tb.addRow(new Object[]{
                   no++, r.getString(1),r.getString(2),r.getString(3), 
                         r.getString(4),r.getString(5),r.getString(6),
+                });
+            }
+            s.close();
+            r.close();
+            tbl_laporan.setModel(tb);
+        }catch(Exception e){
+       
+        }
+    }
+    
+    private void tampilRankingPenyewa(){
+         DefaultTableModel tb = new DefaultTableModel ();
+        tb.addColumn("No");
+        tb.addColumn("ID Penyewa");
+        tb.addColumn("Nama Penyewa");
+        tb.addColumn("No Telp");
+        tb.addColumn("No KTP");
+        tb.addColumn("Saldo");
+        tb.addColumn("Peringkat");
+       
+        String cari = txtcari.getText();
+//        String com = (String) filter.getSelectedItem();
+        try{
+            int no = 1;
+            // query data  + BISA SEARCH 
+            String query = "SELECT id_penyewa, nama, no_telp, no_ktp, saldo, "
+                              + "dense_rank() over(order by saldo desc) AS \"Peringkat\" from penyewa where nama LIKE '%"+cari+"%'order by saldo desc";
+                    
+        //FILTER BELUM BISA    
+//                 "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
+//                            "supir.id_supir as \"ID Supir\", supir.nama as \"Nama Supir\", transaksi.tgl_pinjam as \"Peminjaman\", transaksi.tgl_kembali as \"Pengembalian\", sum(transaksi.total) as \"Total Transaksi\",\n" +
+//                            "dense_rank() over(Order by transaksi.total desc) as \"Peringkat Penyewa\"\n" +
+//                            "from transaksi inner join penyewa on penyewa.id_penyewa = transaksi.id_penyewa inner join supir on transaksi.id_supir = supir.id_supir \n" +
+//                            "MonthName(tgl_pinjam) LIKE'%\"+filter+\"%' group by penyewa.id_penyewa order by transaksi.total desc";
+            
+            // fungsi koneksi
+            java.sql.Connection vconn = (Connection)KoneksiDB.configDB();
+            // kirim parameter fungsi java ke sql
+            java.sql.Statement s = vconn.createStatement();
+            // eksekusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            // menampilkan data (Looping)
+            while(r.next()){
+                tb.addRow(new Object[]{
+                  no++, r.getString(1),r.getString(2),r.getString(3), 
+                        r.getString(4),r.getString(5),r.getString(6),
+                });
+            }
+            s.close();
+            r.close();
+            tbl_laporan.setModel(tb);
+        }catch(Exception e){
+       
+        }
+    }
+    
+    private void tampil_laporan(){
+       DefaultTableModel tb = new DefaultTableModel ();
+        tb.addColumn("No");
+        tb.addColumn("ID Penyewa");
+        tb.addColumn("Nama Penyewa");
+        tb.addColumn("Jumlah Transaksi");
+        tb.addColumn("ID Supir");
+        tb.addColumn("Nama Supir");
+        tb.addColumn("Peminjaman");
+        tb.addColumn("Pengembalian");
+        tb.addColumn("Total Transaksi");
+        tb.addColumn("Peringkat Penyewa");
+       
+        String cari = txtcari.getText();
+        String com = (String) filter.getSelectedItem();
+        try{
+            int no = 1;
+            // query data  + BISA SEARCH 
+            
+            String query = "Test";
+            if (filter.getSelectedIndex() != 0) {
+                query = "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
+                            "supir.id_supir as \"ID Supir\", supir.nama as \"Nama Supir\", transaksi.tgl_pinjam as \"Peminjaman\", transaksi.tgl_kembali as \"Pengembalian\", sum(transaksi.total) as \"Total Transaksi\",\n" +
+                            "dense_rank() over(Order by transaksi.total desc) as \"Peringkat Penyewa\"\n" +
+                            "from transaksi inner join penyewa on penyewa.id_penyewa = transaksi.id_penyewa inner join supir on transaksi.id_supir = supir.id_supir \n" +
+                            "where MonthName(tgl_pinjam) LIKE'%"+com+"%' group by penyewa.id_penyewa order by transaksi.total desc";
+            }else{
+                query = "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
+                            "supir.id_supir as \"ID Supir\", supir.nama as \"Nama Supir\", transaksi.tgl_pinjam as \"Peminjaman\", transaksi.tgl_kembali as \"Pengembalian\", sum(transaksi.total) as \"Total Transaksi\",\n" +
+                            "dense_rank() over(Order by transaksi.total desc) as \"Peringkat Penyewa\"\n" +
+                            "from transaksi inner join penyewa on penyewa.id_penyewa = transaksi.id_penyewa inner join supir on transaksi.id_supir = supir.id_supir \n" +
+                            "where penyewa.nama LIKE'%"+cari+"%' group by penyewa.id_penyewa order by transaksi.total desc";
+            }
+            
+                    
+        //FILTER BELUM BISA    
+//                 "select penyewa.id_penyewa as \"ID Penyewa\", penyewa.nama,count(penyewa.id_penyewa) as \"Jumlah Transaksi\", \n" +
+//                            "supir.id_supir as \"ID Supir\", supir.nama as \"Nama Supir\", transaksi.tgl_pinjam as \"Peminjaman\", transaksi.tgl_kembali as \"Pengembalian\", sum(transaksi.total) as \"Total Transaksi\",\n" +
+//                            "dense_rank() over(Order by transaksi.total desc) as \"Peringkat Penyewa\"\n" +
+//                            "from transaksi inner join penyewa on penyewa.id_penyewa = transaksi.id_penyewa inner join supir on transaksi.id_supir = supir.id_supir \n" +
+//                            "MonthName(tgl_pinjam) LIKE'%\"+filter+\"%' group by penyewa.id_penyewa order by transaksi.total desc";
+//            
+            // fungsi koneksi
+            java.sql.Connection vconn = (Connection)KoneksiDB.configDB();
+            // kirim parameter fungsi java ke sql
+            java.sql.Statement s = vconn.createStatement();
+            // eksekusi query
+            java.sql.ResultSet r = s.executeQuery(query);
+            // menampilkan data (Looping)
+            while(r.next()){
+                tb.addRow(new Object[]{
+                  no++, "SW00" + r.getString(1),r.getString(2),r.getString(3), 
+                        "SPR00" + r.getString(4),r.getString(5),r.getString(6),
                         r.getString(7),r.getString(8),r.getString(9)
                 });
             }
-            jTable1.setModel(tb);
+            s.close();
+            r.close();
+            
+            tbl_laporan.setModel(tb);
+            tbl_laporan.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tbl_laporan.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tbl_laporan.getColumnModel().getColumn(4).setPreferredWidth(30);
+                    
         }catch(Exception e){
        
         }
@@ -86,17 +213,17 @@ public class form_laporan extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_judul = new javax.swing.JLabel();
         bersih = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_submit = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         filter = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_laporan = new javax.swing.JTable();
         txtcari = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -106,10 +233,10 @@ public class form_laporan extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 400));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("FORM LAPORAN");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 300, -1));
+        lbl_judul.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbl_judul.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_judul.setText("FORM LAPORAN");
+        jPanel2.add(lbl_judul, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 40, 300, -1));
 
         bersih.setBackground(new java.awt.Color(102, 102, 255));
         bersih.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -125,18 +252,18 @@ public class form_laporan extends javax.swing.JFrame {
         });
         jPanel2.add(bersih, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(102, 102, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("SUBMIT");
-        jButton2.setBorderPainted(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_submit.setBackground(new java.awt.Color(102, 102, 255));
+        btn_submit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_submit.setForeground(new java.awt.Color(255, 255, 255));
+        btn_submit.setText("SUBMIT");
+        btn_submit.setBorderPainted(false);
+        btn_submit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_submitActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, -1, -1));
+        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
@@ -144,15 +271,15 @@ public class form_laporan extends javax.swing.JFrame {
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, -1, -1));
 
         filter.setEditable(true);
-        filter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        filter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Bulan", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
         filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filterActionPerformed(evt);
             }
         });
-        jPanel2.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 90, 30));
+        jPanel2.add(filter, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 110, 30));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_laporan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -171,7 +298,7 @@ public class form_laporan extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl_laporan);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 920, 340));
 
@@ -227,18 +354,19 @@ public class form_laporan extends javax.swing.JFrame {
 
     private void bersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bersihActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
         model.setRowCount(0);
         tampil_laporan();
     }//GEN-LAST:event_bersihActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
+        tampil_laporan();
+    }//GEN-LAST:event_btn_submitActionPerformed
 
     private void filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)tbl_laporan.getModel();
+        model.setRowCount(0);
+        tampil_laporan();
     }//GEN-LAST:event_filterActionPerformed
 
     private void txtcariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcariKeyReleased
@@ -257,7 +385,7 @@ public class form_laporan extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -302,15 +430,15 @@ public class form_laporan extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bersih;
+    private javax.swing.JButton btn_submit;
     private javax.swing.JComboBox<String> filter;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lbl_judul;
+    private javax.swing.JTable tbl_laporan;
     private javax.swing.JTextField txtcari;
     // End of variables declaration//GEN-END:variables
 }

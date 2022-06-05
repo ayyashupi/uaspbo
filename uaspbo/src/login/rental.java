@@ -66,7 +66,8 @@ public class rental extends javax.swing.JFrame {
         spn_waktu = new javax.swing.JSpinner();
         lbl_lama_sewa3 = new javax.swing.JLabel();
         jtf_tggl = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        btn_back = new javax.swing.JButton();
+        lbl_total = new javax.swing.JLabel();
 
         lbl_lama_sewa2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_lama_sewa2.setForeground(new java.awt.Color(102, 102, 102));
@@ -172,19 +173,24 @@ public class rental extends javax.swing.JFrame {
         });
         jPanel2.add(jtf_tggl, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
-        jButton3.setBackground(new java.awt.Color(102, 102, 255));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(102, 102, 255));
-        jButton3.setText("Back");
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_back.setBackground(new java.awt.Color(102, 102, 255));
+        btn_back.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btn_back.setForeground(new java.awt.Color(102, 102, 255));
+        btn_back.setText("Back");
+        btn_back.setBorderPainted(false);
+        btn_back.setContentAreaFilled(false);
+        btn_back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_backActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
+        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, -1));
+
+        lbl_total.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_total.setForeground(new java.awt.Color(102, 102, 255));
+        lbl_total.setText("Total :");
+        jPanel2.add(lbl_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 250, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -292,14 +298,15 @@ public class rental extends javax.swing.JFrame {
         }
         cmb_model.setSelectedItem("Pilih Mobil");
         cmb_supir.setSelectedItem("Pilih Supir");
-        jtf_tggl.setText("YY-MM-DD");
+        jtf_tggl.setText("YYYY-MM-DD");
         spn_waktu.setValue(0);
     }//GEN-LAST:event_btn_bookingActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+//        MainMenu menu = new MainMenu();
+//        menu.setVisible(true);
+//        this.dispose();
+    }//GEN-LAST:event_btn_backActionPerformed
 
     private void spn_waktuStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spn_waktuStateChanged
         try {
@@ -327,6 +334,14 @@ public class rental extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_supirActionPerformed
     
     private void updateHarga(){
+        int durasi = (Integer)spn_waktu.getValue();
+        if(durasi != 0){
+            int harga_supir = getHargaSupir(getIdSupir(cmb_supir.getSelectedItem().toString()));
+            int total = durasi *(harga_supir + getHargaMobil(getIdMobil(cmb_model.getSelectedItem().toString())));
+            lbl_total.setText("Rp. "+total);
+        }
+        
+//        int total = 0;
         
     }
     
@@ -343,6 +358,8 @@ public class rental extends javax.swing.JFrame {
             java.sql.PreparedStatement s = c.prepareStatement(query);
             s.execute();
 //          JOptionPane.showMessageDialog(null, "Data Terupdate");
+            s.close();
+//            r.close();
         }catch(Exception e){
 //          JOptionPane.showMessageDialog(null, "Data tidak terupdate");
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -394,7 +411,9 @@ public class rental extends javax.swing.JFrame {
                  count = r.getInt("count");
                  i++;
 
-            }  
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -426,6 +445,8 @@ public class rental extends javax.swing.JFrame {
                  i++;
 
             }  
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -457,7 +478,9 @@ public class rental extends javax.swing.JFrame {
                  harga = r.getInt("harga_sewa");
                  i++;
 
-            }  
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -488,7 +511,9 @@ public class rental extends javax.swing.JFrame {
                  saldo = r.getInt("saldo");
                  i++;
 
-            }  
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -520,7 +545,9 @@ public class rental extends javax.swing.JFrame {
                  tanggal = r.getString("hari");
                  i++;
 
-            }             
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -552,7 +579,9 @@ public class rental extends javax.swing.JFrame {
                  id_supir = r.getInt("id_supir");
                  i++;
 
-            }  
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -584,7 +613,9 @@ public class rental extends javax.swing.JFrame {
                  id_mobil = r.getInt("id_mobil");
                  i++;
 
-            }  
+            }
+            s.close();
+            r.close();
         } catch (Exception e){
             
         }
@@ -630,6 +661,10 @@ public class rental extends javax.swing.JFrame {
                 cmb_supir.addItem(r2.getString(i));
            
             }
+            s.close();
+            r.close();
+            s2.close();
+            r2.close();
     
         }catch(Exception e){
             
@@ -648,7 +683,7 @@ public class rental extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -674,11 +709,11 @@ public class rental extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_booking;
     private javax.swing.JButton btn_history;
     private javax.swing.JComboBox<String> cmb_model;
     private javax.swing.JComboBox<String> cmb_supir;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jtf_tggl;
@@ -689,6 +724,7 @@ public class rental extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_model_mobil;
     private javax.swing.JLabel lbl_supir;
     private javax.swing.JLabel lbl_tanggal;
+    private javax.swing.JLabel lbl_total;
     private javax.swing.JSpinner spn_waktu;
     // End of variables declaration//GEN-END:variables
 }

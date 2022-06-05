@@ -68,4 +68,52 @@ insert into penyewa values
 (3,"Flora","Flora","PassF","Female","0803","Jl Castle Bear","00523",1000000)
 ;
 
+delimiter %%
+create or replace trigger addJmlCusDriver
+after insert
+on transaksi FOR EACH ROW    
+begin
+
+update supir
+set jml_cus = jml_cus+1
+where id_supir = new.id_supir;
+
+end %%
+delimiter ;
+
+
+
+delimiter %%
+create or replace trigger editJmlCusDriver
+after update
+on transaksi FOR EACH ROW    
+begin
+
+update supir
+set jml_cus = jml_cus+1
+where id_supir = new.id_supir;
+
+update supir
+set jml_cus = jml_cus-1
+where id_supir = old.id_supir;
+
+end %%
+delimiter ;
+
+
+
+delimiter %%
+create or replace trigger deleteJmlCusDriver
+before delete
+on transaksi FOR EACH ROW    
+begin
+
+update supir
+set jml_cus = jml_cus-1
+where id_supir = old.id_supir;
+
+end %%
+delimiter ;
+
+
 
