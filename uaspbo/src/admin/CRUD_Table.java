@@ -226,6 +226,7 @@ public class CRUD_Table extends javax.swing.JFrame {
         String id = tbl_crud.getValueAt(row, 1).toString();
         id = id.substring(6);
         
+       
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog (null, "Apakah anda yakin ingin menghapus Transaksi?","Warning",dialogButton);
         if(dialogResult == JOptionPane.YES_OPTION){
