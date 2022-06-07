@@ -29,8 +29,9 @@ public class Form_Mobil extends javax.swing.JFrame {
     }
     
     public Form_Mobil() {
-        initComponents();
+        initComponents();//GUI
         initDatabase();
+        
         tipe_aksi = "Tambah Mobil";
         lbl_judul.setText(tipe_aksi);
         btn_submit.setText("Tambah");
@@ -39,6 +40,7 @@ public class Form_Mobil extends javax.swing.JFrame {
     public Form_Mobil(String id){
         initComponents();
         initDatabase();
+        
         tipe_aksi = "Edit Mobil";
         lbl_judul.setText(tipe_aksi);
         btn_submit.setText("Edit");
@@ -280,7 +282,6 @@ public class Form_Mobil extends javax.swing.JFrame {
     
     private void insertMobil(){
         try{
-            Connection conn = (Connection)KoneksiDB.configDB();
             Statement state = conn.createStatement();
                 
             Mobil mobil = new Mobil();
@@ -306,6 +307,7 @@ public class Form_Mobil extends javax.swing.JFrame {
                 
             state.execute(query);
             JOptionPane.showMessageDialog(null, "Mobil Berhasil Ditambah");
+            state.close();
             this.dispose();
         }catch(Exception ex){
             System.out.println(ex);

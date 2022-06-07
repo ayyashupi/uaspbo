@@ -260,7 +260,7 @@ public class Register extends javax.swing.JFrame {
             if(name.equals("")||no_telp.equals("")||username.equals("")||password.equals("")||password2.equals("")){
                 JOptionPane.showMessageDialog(this, "Lengkapi data yang kosong.","Pesan",JOptionPane.ERROR_MESSAGE);
             }else{
-            st=KoneksiDB.mysqlconfig.createStatement();
+            st=KoneksiDB.configDB().createStatement();
             st.executeUpdate("insert into penyewa(nama,username,password,gender,no_telp,alamat,no_ktp,saldo)"
                     + " values('"+name+"','"+username+"','"+password+"','"+kelamin+"','"+no_telp+"','"+alamat+"','"+noktp+"',0)");
             JOptionPane.showMessageDialog(rootPane, "Register berhasil.");

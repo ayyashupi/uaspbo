@@ -4,7 +4,7 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class KoneksiDB {
-    public static Connection mysqlconfig;
+    private static Connection mysqlconfig;
     
     public static Connection configDB()throws SQLException{
         try{

@@ -242,18 +242,27 @@ public class CRUD_Table extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Pilih "+tipe+" Terlebih Dahulu");
         }else{
         String id = tbl_crud.getValueAt(row, 1).toString();
-        id = id.substring(6);
+        
+            if (tipe.equals("Penyewa")) {
+                id = id.substring(5);
+                System.out.println("Tipe Sesuai");
+            }else{
+                id = id.substring(6);
+            }
         
        
         int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Apakah anda yakin ingin menghapus Transaksi?","Warning",dialogButton);
+        int dialogResult = JOptionPane.showConfirmDialog (null, 
+                "Apakah anda yakin ingin menghapus "+tipe+"?","Warning",dialogButton);
         if(dialogResult == JOptionPane.YES_OPTION){
             if(tipe.equals("Mobil")){
                 DeleteMobil(id);
             }else if(tipe.equals("Supir")){
-                DeletePenyewa(id);
-            }else if(tipe.equals("Penyewa")){
                 DeleteSupir(id);
+                
+            }else if(tipe.equals("Penyewa")){
+                
+                DeletePenyewa(id);
             }
             fillTable(tipe);
         }

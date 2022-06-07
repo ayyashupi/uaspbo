@@ -2,6 +2,7 @@ package object;
 
 
 import javax.swing.JComboBox;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 /*
@@ -30,6 +31,7 @@ public class Validator {
             return false;
         }
     }
+   
     
     
 }
