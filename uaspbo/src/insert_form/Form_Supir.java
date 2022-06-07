@@ -7,24 +7,21 @@ package insert_form;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-//import java.sql.SQLException;
 import login.KoneksiDB;
 import object.*;
-
 
 /**
  *
  * @author ayyash
  */
-public class Form_Penyewa extends javax.swing.JFrame {
+public class Form_Supir extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form register
      */
     private Connection conn;
     private String tipe_aksi;
-    private String id_penyewa;
+    private String id_supir;
     
     private void initDatabase(){
         try{
@@ -34,24 +31,25 @@ public class Form_Penyewa extends javax.swing.JFrame {
         }
     }
     
-    public Form_Penyewa() {
+    public Form_Supir() {
         initComponents();
         initDatabase();
-        tipe_aksi = "Tambah Penyewa";
+        tipe_aksi = "Tambah Supir";
         lbl_judul.setText(tipe_aksi);
         btn_submit.setText("Tambah");
     }
     
-    public Form_Penyewa(String id){
+    public Form_Supir(String id){
         initComponents();
         initDatabase();
-        tipe_aksi = "Edit Penyewa";
+        tipe_aksi = "Edit Supir";
         lbl_judul.setText(tipe_aksi);
         btn_submit.setText("Edit");
-        id_penyewa = id;
-        fillForm(getPenyewa(id_penyewa));
+        id_supir = id;
+        fillForm(getSupir(id_supir));
         
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,7 +59,6 @@ public class Form_Penyewa extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lbl_judul = new javax.swing.JLabel();
@@ -74,18 +71,10 @@ public class Form_Penyewa extends javax.swing.JFrame {
         NamaField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        GenderField = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        SaldoField = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        UsernameField = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        StatusField = new javax.swing.JComboBox<>();
         lbl_error = new javax.swing.JLabel();
-        PassField = new javax.swing.JTextField();
-        AlamatField = new javax.swing.JTextField();
-        KTPField = new javax.swing.JTextField();
-
-        jLabel1.setText("jLabel1");
+        CusField = new javax.swing.JTextField();
+        BiayaField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RentAllCars");
@@ -100,13 +89,13 @@ public class Form_Penyewa extends javax.swing.JFrame {
 
         lbl_judul.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbl_judul.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_judul.setText("Form Penyewa");
+        lbl_judul.setText("Form Supir");
         jPanel2.add(lbl_judul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 300, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
         jLabel4.setText("Nomor HP");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 100, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 100, -1));
 
         NoHPField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         NoHPField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
@@ -115,12 +104,12 @@ public class Form_Penyewa extends javax.swing.JFrame {
                 NoHPFieldKeyReleased(evt);
             }
         });
-        jPanel2.add(NoHPField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 220, 30));
+        jPanel2.add(NoHPField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 220, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel5.setText("Alamat");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 80, -1));
+        jLabel5.setText("Biaya");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 80, -1));
 
         btn_back.setBackground(new java.awt.Color(102, 102, 255));
         btn_back.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -134,7 +123,7 @@ public class Form_Penyewa extends javax.swing.JFrame {
                 btn_backActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, -1, -1));
+        jPanel2.add(btn_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, -1, -1));
 
         btn_submit.setBackground(new java.awt.Color(102, 102, 255));
         btn_submit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -147,7 +136,7 @@ public class Form_Penyewa extends javax.swing.JFrame {
                 btn_submitActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 640, 90, -1));
+        jPanel2.add(btn_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 430, 90, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
@@ -160,79 +149,57 @@ public class Form_Penyewa extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel8.setText("Saldo");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 500, 40, -1));
+        jLabel8.setText("Jumlah Customer");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 110, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel10.setText("Gender");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, -1, -1));
+        jLabel10.setText("Status");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
 
-        GenderField.setEditable(true);
-        GenderField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Laki-laki", "Perempuan" }));
-        jPanel2.add(GenderField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 530, 90, 30));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("Nomor KTP");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 80, -1));
-
-        SaldoField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        SaldoField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        SaldoField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                SaldoFieldKeyReleased(evt);
+        StatusField.setEditable(true);
+        StatusField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih", "Tersedia", "Tidak Tersedia" }));
+        StatusField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatusFieldActionPerformed(evt);
             }
         });
-        jPanel2.add(SaldoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, 110, 30));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("Password");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 100, -1));
-
-        UsernameField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        UsernameField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(UsernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 220, 30));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel11.setText("Username");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 100, -1));
+        jPanel2.add(StatusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 90, 30));
         jPanel2.add(lbl_error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 220, 20));
 
-        PassField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        PassField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(PassField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 220, 30));
-
-        AlamatField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        AlamatField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        jPanel2.add(AlamatField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 220, 30));
-
-        KTPField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        KTPField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
-        KTPField.addKeyListener(new java.awt.event.KeyAdapter() {
+        CusField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        CusField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        CusField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                KTPFieldKeyReleased(evt);
+                CusFieldKeyReleased(evt);
             }
         });
-        jPanel2.add(KTPField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 220, 30));
+        jPanel2.add(CusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 90, 30));
+
+        BiayaField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        BiayaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 1, true));
+        BiayaField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                BiayaFieldKeyReleased(evt);
+            }
+        });
+        jPanel2.add(BiayaField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 220, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addGap(50, 50, 50))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -259,39 +226,38 @@ public class Form_Penyewa extends javax.swing.JFrame {
     private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
         Validator v = new Validator();
         if(!v.isEmpty(NamaField)&&
-                !v.isEmpty(UsernameField)&&
-                !v.isEmpty(PassField)&&
+                !v.isEmpty(BiayaField)&&
+                !v.isEmpty(StatusField)&&
                 !v.isEmpty(NoHPField)&&
-                !v.isEmpty(KTPField)&&
-                !v.isEmpty(GenderField)&&
-                !v.isEmpty(SaldoField) &&
-                !v.isEmpty(AlamatField)
+                !v.isEmpty(CusField)
                 ){
-            if(tipe_aksi.equals("Tambah Penyewa")){
-                insertPenyewa();
-            }else if(tipe_aksi.equals("Edit Penyewa")){
-                editPenyewa(id_penyewa);
+            if(tipe_aksi.equals("Tambah Supir")){
+                insertSupir();
+            }else if(tipe_aksi.equals("Edit Supir")){
+                editSupir(id_supir);
             }else{
                 System.out.println("No Type Inputted");
             }
         }else{
             JOptionPane.showMessageDialog(null, "Form belum Komplit");
         }
-        
     }//GEN-LAST:event_btn_submitActionPerformed
 
+    private void StatusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatusFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusFieldActionPerformed
+
+    private void CusFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CusFieldKeyReleased
+        resetText(CusField);
+    }//GEN-LAST:event_CusFieldKeyReleased
+
+    private void BiayaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BiayaFieldKeyReleased
+        resetText(BiayaField);
+    }//GEN-LAST:event_BiayaFieldKeyReleased
+
     private void NoHPFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NoHPFieldKeyReleased
-        resetText(NoHPField);
+       resetText(NoHPField);
     }//GEN-LAST:event_NoHPFieldKeyReleased
-
-    private void SaldoFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SaldoFieldKeyReleased
-        resetText(SaldoField);
-    }//GEN-LAST:event_SaldoFieldKeyReleased
-
-    private void KTPFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KTPFieldKeyReleased
-        resetText(KTPField);
-    }//GEN-LAST:event_KTPFieldKeyReleased
-    
     
     private void resetText(JTextField txt){
         try {
@@ -305,37 +271,34 @@ public class Form_Penyewa extends javax.swing.JFrame {
         }
     }
     
-    private void insertPenyewa(){
+    private void insertSupir(){
         try{
             Connection conn = (Connection)KoneksiDB.configDB();
             Statement state = conn.createStatement();
                 
-            Penyewa pengguna = new Penyewa();
-            pengguna.setSaldo(Integer.valueOf(SaldoField.getText().toString()));
+            Supir driver = new Supir();
+            
 //            pengguna.setHarga_sewa(Integer.valueOf(No.getText().toString()));
                 
-            pengguna.setNama(NamaField.getText().toString());
-            pengguna.setUsername(UsernameField.getText().toString());
-            pengguna.setPassword(PassField.getText().toString());
-            pengguna.setNo_hp(NoHPField.getText().toString());
-            pengguna.setAlamat(AlamatField.getText().toString());
-            pengguna.setNo_ktp(KTPField.getText().toString());
-            pengguna.setGender(GenderField.getSelectedItem().toString());
+            driver.setNama(NamaField.getText().toString());
+//            driver.setUsername(UsernameField.getText().toString());
+//            driver.setPassword(PassField.getText().toString());
+            driver.setNo_hp(NoHPField.getText().toString());
+            driver.setBiaya(Integer.valueOf(BiayaField.getText().toString()));
+            driver.setJml_cus(Integer.valueOf(CusField.getText().toString()));
+            driver.setStatus(StatusField.getSelectedItem().toString());
                 
-            String query = "insert into penyewa(nama,username,password,no_telp,alamat,no_ktp,gender,saldo) values "
+            String query = "insert into supir(nama,no_telp,biaya,jml_cus,status) values "
                     + "("
-                    + "'" + pengguna.getNama()+ "',"
-                    + "'" + pengguna.getUsername()+ "',"
-                    + "'" + pengguna.getPassword()+ "',"
-                    + "'" + pengguna.getNo_hp()+ "',"
-                    + "'" + pengguna.getAlamat()+ "',"
-                    + "'" + pengguna.getNo_ktp()+ "',"
-                    + "'" + pengguna.getGender()+ "',"
-                    + pengguna.getSaldo()
+                    + "'" + driver.getNama()+ "',"
+                    + "'" + driver.getNo_hp()+ "',"
+                    + "" + driver.getBiaya()+ ","
+                    + "" + driver.getJml_cus()+ ","
+                    + "'" + driver.getStatus()+ "'"
                     + ")";
                 
             state.execute(query);
-            JOptionPane.showMessageDialog(null, "Penyewa Berhasil Ditambah");
+            JOptionPane.showMessageDialog(null, "Supir Berhasil Ditambah");
             this.dispose();
         }catch(Exception ex){
             System.out.println(ex);
@@ -343,37 +306,30 @@ public class Form_Penyewa extends javax.swing.JFrame {
         }
     }
     
-    private void editPenyewa(String id){
+    private void editSupir(String id){
         try{
             Statement state = conn.createStatement();
             
-            Penyewa pengguna = new Penyewa();
-            pengguna.setSaldo(Integer.valueOf(SaldoField.getText().toString()));
-//            pengguna.setHarga_sewa(Integer.valueOf(No.getText().toString()));
+            Supir driver = new Supir();
                 
-            pengguna.setId_penyewa(Integer.valueOf(id));
-            pengguna.setNama(NamaField.getText().toString());
-            pengguna.setUsername(UsernameField.getText().toString());
-            pengguna.setPassword(PassField.getText().toString());
-            pengguna.setNo_hp(NoHPField.getText().toString());
-            pengguna.setAlamat(AlamatField.getText().toString());
-            pengguna.setNo_ktp(KTPField.getText().toString());
-            pengguna.setGender(GenderField.getSelectedItem().toString());
+            driver.setId_supir(Integer.valueOf(id));
+            driver.setNama(NamaField.getText().toString());
+            driver.setNo_hp(NoHPField.getText().toString());
+            driver.setBiaya(Integer.valueOf(BiayaField.getText().toString()));
+            driver.setJml_cus(Integer.valueOf(CusField.getText().toString()));
+            driver.setStatus(StatusField.getSelectedItem().toString());
             
-            String query = "update penyewa set "
-                    + "nama = '" + pengguna.getNama() + "',"
-                    + "username = '"+ pengguna.getUsername()+ "',"
-                    + "password = '" + pengguna.getPassword()+ "',"
-                    + "no_telp = '" + pengguna.getNo_hp()+ "',"
-                    + "alamat = '" + pengguna.getAlamat()+ "',"
-                    + "no_ktp = '" + pengguna.getNo_ktp()+ "',"
-                    + "gender = '" + pengguna.getGender()+ "',"
-                    + "saldo = " + pengguna.getSaldo()
-                    + " where id_penyewa = "+pengguna.getId_penyewa();
+            String query = "update supir set "
+                    + "nama = '" + driver.getNama() + "',"
+                    + "no_telp = '"+ driver.getNo_hp()+ "',"
+                    + "biaya = " + driver.getBiaya()+ ","
+                    + "jml_cus = " + driver.getJml_cus()+ ","
+                    + "status = '" + driver.getStatus()+ "'"
+                    + " where id_supir = "+driver.getId_supir();
                 
             state.executeUpdate(query);
             state.close();
-            JOptionPane.showMessageDialog(null, "Penyewa Berhasil Diedit");
+            JOptionPane.showMessageDialog(null, "Supir Berhasil Diedit");
             this.dispose();
         }catch(Exception ex){
             System.out.println(ex);
@@ -381,24 +337,21 @@ public class Form_Penyewa extends javax.swing.JFrame {
         }
     }
     
-    private Penyewa getPenyewa(String id){
-        Penyewa penggunabaru = new Penyewa();
+    private Supir getSupir(String id){
+        Supir driver = new Supir();
         try{
             Statement state = conn.createStatement();
-            String query = "Select * from penyewa where id_penyewa = "+id;
+            String query = "Select * from supir where id_supir = "+id;
             
             ResultSet rs = state.executeQuery(query);
             
             while(rs.next()){
-                penggunabaru.setId_penyewa(rs.getInt("id_penyewa"));
-                penggunabaru.setNama(rs.getString("nama"));
-                penggunabaru.setAlamat(rs.getString("alamat"));
-                penggunabaru.setNo_hp(rs.getString("no_telp"));
-                penggunabaru.setGender(rs.getString("gender"));
-                penggunabaru.setNo_ktp(rs.getString("no_ktp"));
-                penggunabaru.setSaldo(rs.getInt("saldo"));
-                penggunabaru.setUsername(rs.getString("username"));
-                penggunabaru.setPassword(rs.getString("password"));
+                driver.setId_supir(rs.getInt("id_supir"));
+                driver.setNama(rs.getString("nama"));
+                driver.setStatus(rs.getString("status"));
+                driver.setNo_hp(rs.getString("no_telp"));
+                driver.setBiaya(rs.getInt("biaya"));
+                driver.setJml_cus(rs.getInt("jml_cus"));
 //                penggunabaru.set
             }
             state.close();
@@ -407,18 +360,15 @@ public class Form_Penyewa extends javax.swing.JFrame {
         }catch(SQLException ex){
             System.out.println(ex);
         }
-        return penggunabaru;
+        return driver;
     }
     
-    private void fillForm(Penyewa pengguna){
-        NamaField.setText(pengguna.getNama());
-        UsernameField.setText(pengguna.getUsername());
-        PassField.setText(pengguna.getPassword());
-        NoHPField.setText(pengguna.getNo_hp());
-        AlamatField.setText(pengguna.getAlamat());
-        KTPField.setText(pengguna.getNo_ktp());
-        SaldoField.setText(pengguna.getSaldo()+"");
-        GenderField.setSelectedItem(pengguna.getGender());
+    private void fillForm(Supir driver){
+        NamaField.setText(driver.getNama());
+        NoHPField.setText(driver.getNo_hp());
+        BiayaField.setText(driver.getBiaya()+"");
+        CusField.setText(driver.getJml_cus()+"");
+        StatusField.setSelectedItem(driver.getStatus());
         
     }
     /**
@@ -438,13 +388,13 @@ public class Form_Penyewa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Supir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Supir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Supir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form_Penyewa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Form_Supir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -482,31 +432,24 @@ public class Form_Penyewa extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Form_Penyewa().setVisible(true);
+                new Form_Supir().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField AlamatField;
-    private javax.swing.JComboBox<String> GenderField;
-    private javax.swing.JTextField KTPField;
+    private javax.swing.JTextField BiayaField;
+    private javax.swing.JTextField CusField;
     private javax.swing.JTextField NamaField;
     private javax.swing.JTextField NoHPField;
-    private javax.swing.JTextField PassField;
-    private javax.swing.JTextField SaldoField;
-    private javax.swing.JTextField UsernameField;
+    private javax.swing.JComboBox<String> StatusField;
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_submit;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbl_error;
